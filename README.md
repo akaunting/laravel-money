@@ -44,10 +44,10 @@ You can change the currencies information of your app from `config/money.php` fi
 ```php
 use Akaunting\Money\Money;
 
-echo Money::USD(500); // '$ 5,00' unconverted
-echo new Money(500, new Currency('USD')); // '$ 5,00' unconverted
-echo Money::USD(500, true); // '$ 500,00' converted
-echo new Money(500, new Currency('USD'), true); // '$ 500,00' converted
+echo Money::USD(500); // '$ 5.00' unconverted
+echo new Money(500, new Currency('USD')); // '$ 5.00' unconverted
+echo Money::USD(500, true); // '$ 500.00' converted
+echo new Money(500, new Currency('USD'), true); // '$ 500.00' converted
 ```
 
 ### Advanced
