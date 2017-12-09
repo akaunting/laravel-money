@@ -240,7 +240,7 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
         $currency = strtoupper(trim($currency));
         $currencies = static::getCurrencies();
 
-        if (! array_key_exists($currency, $currencies)) {
+        if (!array_key_exists($currency, $currencies)) {
             throw new OutOfBoundsException('Invalid currency "' . $currency . '"');
         }
 
