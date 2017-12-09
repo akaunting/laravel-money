@@ -2,11 +2,11 @@
 
 namespace Akaunting\Money;
 
-use OutOfBoundsException;
-use JsonSerializable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
+use JsonSerializable;
+use OutOfBoundsException;
 
 /**
  * Class Currency.
@@ -241,7 +241,7 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
         $currencies = static::getCurrencies();
 
         if (! array_key_exists($currency, $currencies)) {
-            throw new OutOfBoundsException('Invalid currency "'.$currency.'"');
+            throw new OutOfBoundsException('Invalid currency "' . $currency . '"');
         }
 
         $attributes = $currencies[$currency];
@@ -404,7 +404,7 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     public function getPrefix()
     {
-        if (! $this->symbolFirst) {
+        if (!$this->symbolFirst) {
             return '';
         }
 

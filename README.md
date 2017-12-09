@@ -2,7 +2,7 @@
 
 [![Version](https://poser.pugx.org/akaunting/money/v/stable.svg)](https://github.com/akaunting/money/releases)
 [![Quality](https://scrutinizer-ci.com/g/akaunting/money/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/akaunting/money)
-[![StyleCI](https://styleci.io/repos/95012030/shield?style=flat&branch=master)](https://styleci.io/repos/95012030)
+[![StyleCI](https://styleci.io/repos/112121508/shield?style=flat&branch=master)](https://styleci.io/repos/112121508)
 [![Downloads](https://poser.pugx.org/akaunting/money/d/total.svg)](https://github.com/akaunting/money)
 [![License](https://poser.pugx.org/akaunting/money/license.svg)](LICENSE.md)
 

@@ -15,7 +15,7 @@ class Provider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/Config/money.php' => config_path('money.php'),
+            __DIR__ . '/Config/money.php' => config_path('money.php'),
         ], 'money');
 
         Money::setLocale($this->app->make('translator')->getLocale());
@@ -38,6 +38,6 @@ class Provider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/Config/money.php', 'money');
+        $this->mergeConfigFrom(__DIR__ . '/Config/money.php', 'money');
     }
 }

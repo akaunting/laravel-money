@@ -1,7 +1,7 @@
 <?php
 
-use Akaunting\Money\Money;
 use Akaunting\Money\Currency;
+use Akaunting\Money\Money;
 
 if (!function_exists('money')) {
     /**

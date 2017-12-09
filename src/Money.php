@@ -4,13 +4,13 @@ namespace Akaunting\Money;
 
 use BadFunctionCallException;
 use Closure;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Renderable;
 use InvalidArgumentException;
 use JsonSerializable;
 use OutOfBoundsException;
 use UnexpectedValueException;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Renderable;
 
 /**
  * Class Money.
@@ -205,9 +205,9 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
     /**
      * Create a new instance.
      *
-     * @param mixed                    $amount
+     * @param mixed                     $amount
      * @param \Akaunting\Money\Currency $currency
-     * @param bool                     $convert
+     * @param bool                      $convert
      *
      * @throws \UnexpectedValueException
      */
@@ -239,7 +239,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
             return (float) round($this->convertAmount($amount, $convert), $this->currency->getPrecision());
         }
 
-        throw new UnexpectedValueException('Invalid amount "'.$amount.'"');
+        throw new UnexpectedValueException('Invalid amount "' . $amount . '"');
     }
 
     /**
@@ -251,7 +251,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     protected function parseAmountFromCallable($amount)
     {
-        if (! is_callable($amount)) {
+        if (!is_callable($amount)) {
             return $amount;
         }
 
@@ -267,7 +267,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     protected function parseAmountFromString($amount)
     {
-        if (! is_string($amount)) {
+        if (!is_string($amount)) {
             return $amount;
         }
 
@@ -297,7 +297,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     protected function convertAmount($amount, $convert = false)
     {
-        if (! $convert) {
+        if (!$convert) {
             return $amount;
         }
 
@@ -354,7 +354,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     protected function assertSameCurrency(self $other)
     {
-        if (! $this->isSameCurrency($other)) {
+        if (!$this->isSameCurrency($other)) {
             throw new InvalidArgumentException('Different currencies "' . $this->currency . '" and "' . $other->currency . '"');
         }
     }
@@ -368,7 +368,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     protected function assertOperand($operand)
     {
-        if (! is_int($operand) && ! is_float($operand)) {
+        if (!is_int($operand) && !is_float($operand)) {
             throw new InvalidArgumentException('Operand "' . $operand . '" should be an integer or a float');
         }
     }
@@ -384,8 +384,8 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
     {
         $roundingModes = [self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP];
 
-        if (! in_array($roundingMode, $roundingModes)) {
-            throw new OutOfBoundsException('Rounding mode should be '.implode(' | ', $roundingModes));
+        if (!in_array($roundingMode, $roundingModes)) {
+            throw new OutOfBoundsException('Rounding mode should be ' . implode(' | ', $roundingModes));
         }
     }
 
@@ -519,8 +519,8 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      * convert.
      *
      * @param \Akaunting\Money\Currency $currency
-     * @param int|float                $ratio
-     * @param int                      $roundingMode
+     * @param int|float                 $ratio
+     * @param int                       $roundingMode
      *
      * @throws \InvalidArgumentException
      * @throws \OutOfBoundsException
@@ -675,7 +675,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     public function formatLocale($locale = null, Closure $callback = null)
     {
-        if (! class_exists('\NumberFormatter')) {
+        if (!class_exists('\NumberFormatter')) {
             throw new BadFunctionCallException('Class NumberFormatter not exists. Require ext-intl extension.');
         }
 
