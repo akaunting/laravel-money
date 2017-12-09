@@ -408,7 +408,7 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
             return '';
         }
 
-        return $this->symbol.' ';
+        return $this->symbol;
     }
 
     /**
@@ -422,7 +422,7 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
             return '';
         }
 
-        return $this->symbol;
+        return ' ' . $this->symbol;
     }
 
     /**
