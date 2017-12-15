@@ -10,7 +10,7 @@ This package intends to provide tools for formatting and conversion monetary val
 
 ### Why not use the moneyphp package?
 
-Because `moneyphp` uses the `intl` extension for number formatting. `intl` extension isn't present by default on PHP installs and can give different results in different environments.
+Because `moneyphp` uses the `intl` extension for number formatting. `intl` extension isn't present by default on PHP installs and can give different results in different servers.
 
 ## Getting Started
 
