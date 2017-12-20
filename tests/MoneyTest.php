@@ -268,10 +268,10 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     public function providesFormatLocale()
     {
         return [
-            ['₺1.548,48', 'TRY', 154848.25895, 'tr_TR', 'Example: '.__LINE__],
+            ['₺1.548,48', 'TRY', 154848.25895, 'tr_TR', 'Example: ' . __LINE__],
             ['TR₺1,548.48', 'TRY', 154848.25895, 'tr_TR', 'Example: ' . __LINE__],
-            ['US$0,48', 'USD', 48.25, 'en_US', 'Example: '.__LINE__],
-            ['$1,548.48', 'USD', 154848.25895, 'en_US', 'Example: '.__LINE__],
+            ['US$0,48', 'USD', 48.25, 'en_US', 'Example: ' . __LINE__],
+            ['$1,548.48', 'USD', 154848.25895, 'en_US', 'Example: ' . __LINE__],
         ];
     }
 
@@ -313,10 +313,10 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     public function providesFormat()
     {
         return [
-            ['₺1.548,48', 'TRY', 154848.25895, 'Example: '.__LINE__],
-            ['₺1.548,48', 'TRY', 154848.25895, 'Example: '.__LINE__],
-            ['$0.48', 'USD', 48.25, 'Example: '.__LINE__],
-            ['$1,548.48', 'USD', 154848.25895, 'Example: '.__LINE__],
+            ['₺1.548,48', 'TRY', 154848.25895, 'Example: ' . __LINE__],
+            ['₺1.548,48', 'TRY', 154848.25895, 'Example: ' . __LINE__],
+            ['$0.48', 'USD', 48.25, 'Example: ' . __LINE__],
+            ['$1,548.48', 'USD', 154848.25895, 'Example: ' . __LINE__],
         ];
     }
 }
