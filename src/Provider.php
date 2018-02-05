@@ -24,13 +24,13 @@ class Provider extends ServiceProvider
         // Register blade directives
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
             $bladeCompiler->directive('money', function ($expression) {
-            	return "<?php echo money($expression); ?>";
+                return "<?php echo money($expression); ?>";
             });
         });
         
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
             $bladeCompiler->directive('currency', function ($expression) {
-            	return "<?php echo currency($expression); ?>";
+                return "<?php echo currency($expression); ?>";
             });
         });
     }
