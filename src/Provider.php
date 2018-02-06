@@ -27,7 +27,7 @@ class Provider extends ServiceProvider
                 return "<?php echo money($expression); ?>";
             });
         });
-        
+
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
             $bladeCompiler->directive('currency', function ($expression) {
                 return "<?php echo currency($expression); ?>";
