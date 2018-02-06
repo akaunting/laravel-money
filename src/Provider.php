@@ -2,8 +2,8 @@
 
 namespace Akaunting\Money;
 
-use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 
 class Provider extends ServiceProvider
 {
