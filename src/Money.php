@@ -274,6 +274,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
         $thousandsSeparator = $this->currency->getThousandsSeparator();
         $decimalMark = $this->currency->getDecimalMark();
 
+        $amount = str_replace($this->currency->getSymbol(), '', $amount);
         $amount = preg_replace('/[^0-9\\' . $thousandsSeparator . '\\' . $decimalMark . '\-\+]/', '', $amount);
         $amount = str_replace($this->currency->getThousandsSeparator(), '', $amount);
         $amount = str_replace($this->currency->getDecimalMark(), '.', $amount);
