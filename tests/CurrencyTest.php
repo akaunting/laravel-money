@@ -6,8 +6,9 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
 {
     public function testFactoryMethods()
     {
+        $TRY = 'TRY';
         $this->assertEquals(Currency::USD(), new Currency('USD'));
-        $this->assertEquals(Currency::TRY(), new Currency('TRY'));
+        $this->assertEquals(Currency::$TRY(), new Currency('TRY'));
     }
 
     /**

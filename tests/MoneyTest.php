@@ -12,8 +12,9 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 
     public function testFactoryMethods()
     {
+        $TRY = 'TRY';
         $this->assertEquals(Money::USD(25), Money::USD(10)->add(Money::USD(15)));
-        $this->assertEquals(Money::TRY(25), Money::TRY(10)->add(Money::TRY(15)));
+        $this->assertEquals(Money::$TRY(25), Money::$TRY(10)->add(Money::$TRY(15)));
     }
 
     public function testBigValue()
@@ -276,13 +277,14 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     public function testCallbackFormatLocale()
     {
         $m = new Money(1, new Currency('USD'));
+
         $actual = $m->formatLocale(null, function (NumberFormatter $formatter) {
             $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
         });
 
-        $formatter = new NumberFormatter(Money::getLocale(), NumberFormatter::CURRENCY);
+        $formatter = new NumberFormatter($m::getLocale(), NumberFormatter::CURRENCY);
         $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
-        $expected = $formatter->formatCurrency(0, 'USD');
+        $expected = $formatter->formatCurrency('0.01', 'USD');
 
         $this->assertEquals($expected, $actual);
     }
