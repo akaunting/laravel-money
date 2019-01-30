@@ -604,7 +604,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
             throw new InvalidArgumentException('Division by zero');
         }
 
-        return new self(round($this->amount / $divisor, 0, $roundingMode), $this->currency);
+        return new self(round($this->amount / $divisor, $this->currency->getPrecision(), $roundingMode), $this->currency);
     }
 
     /**
