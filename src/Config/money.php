@@ -1202,11 +1202,11 @@ return [
     ],
 
     'PEN' => [
-        'name'                => 'Nuevo Sol',
+        'name'                => 'Sol',
         'code'                => 604,
         'precision'           => 2,
         'subunit'             => 100,
-        'symbol'              => 'S/.',
+        'symbol'              => 'S/',
         'symbol_first'        => true,
         'decimal_mark'        => '.',
         'thousands_separator' => ',',
