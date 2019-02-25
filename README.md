@@ -1,9 +1,10 @@
 # Currency formatting and conversion package for Laravel.
 
 [![Version](https://poser.pugx.org/akaunting/money/v/stable.svg)](https://github.com/akaunting/money/releases)
+![Downloads](https://poser.pugx.org/akaunting/money/d/total.svg)
+![Build Status](https://travis-ci.com/akaunting/money.svg)
 [![Quality](https://scrutinizer-ci.com/g/akaunting/money/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/akaunting/money)
 [![StyleCI](https://styleci.io/repos/112121508/shield?style=flat&branch=master)](https://styleci.io/repos/112121508)
-[![Downloads](https://poser.pugx.org/akaunting/money/d/total.svg)](https://github.com/akaunting/money)
 [![License](https://poser.pugx.org/akaunting/money/license.svg)](LICENSE.md)
 
 This package intends to provide tools for formatting and conversion monetary values in an easy, yet powerful way for Laravel projects.
