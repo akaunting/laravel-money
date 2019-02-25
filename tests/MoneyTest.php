@@ -194,10 +194,10 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 
     public function testDivision()
     {
-        $m1 = new Money(3, new Currency('USD'));
+        $m1 = new Money(2, new Currency('USD'));
         $m2 = new Money(10, new Currency('USD'));
 
-        $this->assertEquals($m1, $m2->divide(3));
+        $this->assertEquals($m1, $m2->divide(5));
         $this->assertNotEquals($m1, $m2->divide(2));
     }
 
