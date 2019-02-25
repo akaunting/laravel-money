@@ -276,6 +276,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     public function testCallbackFormatLocale()
     {
         $m = new Money(1, new Currency('USD'));
+
         $actual = $m->formatLocale(null, function (NumberFormatter $formatter) {
             $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
         });
