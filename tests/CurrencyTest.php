@@ -59,7 +59,7 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('.', $c2->getDecimalMark());
         $this->assertEquals(',', $c2->getThousandsSeparator());
         $this->assertEquals('', $c2->getPrefix());
-        $this->assertEquals('Fr', $c2->getSuffix());
+        $this->assertEquals(' Fr', $c2->getSuffix());
         $this->assertNotEmpty($c2->toArray()['CDF']);
         $this->assertJson($c2->toJson());
         $this->assertNotEmpty($c2->jsonSerialize()['CDF']);
