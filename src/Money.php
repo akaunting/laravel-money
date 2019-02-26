@@ -535,7 +535,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
         $this->assertOperand($ratio);
         $this->assertRoundingMode($roundingMode);
 
-        if ($ratio < 1) {
+        if ($ratio > 1) {
             return $this->divide($ratio, $roundingMode);
         }
 
