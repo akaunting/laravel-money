@@ -241,7 +241,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
 
         if (!isset($amount)) {
             return 0;
-        }
+        } 
 
         throw new UnexpectedValueException('Invalid amount "' . $amount . '"');
     }
