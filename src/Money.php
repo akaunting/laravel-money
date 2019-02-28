@@ -239,6 +239,10 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
             return (float) round($this->convertAmount($amount, $convert), $this->currency->getPrecision());
         }
 
+        if (!isset($amount)) {
+            return 0;
+        }
+
         throw new UnexpectedValueException('Invalid amount "' . $amount . '"');
     }
 
