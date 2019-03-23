@@ -229,6 +229,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     protected function parseAmount($amount, $convert = false)
     {
+        $amount*=1;
         $amount = $this->parseAmountFromString($this->parseAmountFromCallable($amount));
 
         if (is_int($amount)) {
