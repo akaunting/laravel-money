@@ -551,7 +551,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
     {
         $this->assertSameCurrency($addend);
 
-        return new self($this->amount + $addend->amount, $this->currency);
+        return new static($this->amount + $addend->amount, $this->currency);
     }
 
     /**
@@ -567,7 +567,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
     {
         $this->assertSameCurrency($subtrahend);
 
-        return new self($this->amount - $subtrahend->amount, $this->currency);
+        return new static($this->amount - $subtrahend->amount, $this->currency);
     }
 
     /**
@@ -583,7 +583,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     public function multiply($multiplier, $roundingMode = self::ROUND_HALF_UP)
     {
-        return new self(round($this->amount * $multiplier, $this->currency->getPrecision(), $roundingMode), $this->currency);
+        return new static(round($this->amount * $multiplier, $this->currency->getPrecision(), $roundingMode), $this->currency);
     }
 
     /**
@@ -606,7 +606,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
             throw new InvalidArgumentException('Division by zero');
         }
 
-        return new self(round($this->amount / $divisor, $this->currency->getPrecision(), $roundingMode), $this->currency);
+        return new static(round($this->amount / $divisor, $this->currency->getPrecision(), $roundingMode), $this->currency);
     }
 
     /**
@@ -624,7 +624,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
 
         foreach ($ratios as $ratio) {
             $share = floor($this->amount * $ratio / $total);
-            $results[] = new self($share, $this->currency);
+            $results[] = new static($share, $this->currency);
             $remainder -= $share;
         }
 
