@@ -102,7 +102,7 @@ Please see [Releases](../../releases) for more information what has changed rece
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Pull requests are more than welcome. You must follow the PSR coding standards.
 
 ## Security
 
