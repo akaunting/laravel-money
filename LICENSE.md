@@ -1,5 +1,7 @@
 The MIT License (MIT)
 
+Copyright (c) 2015 Ricardo Gobbo de Souza
+
 Copyright (c) 2017 Akaunting
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
