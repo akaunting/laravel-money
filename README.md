@@ -1,11 +1,11 @@
 # Currency formatting and conversion package for Laravel.
 
-[![Version](https://poser.pugx.org/akaunting/money/v/stable.svg)](https://github.com/akaunting/money/releases)
-![Downloads](https://poser.pugx.org/akaunting/money/d/total.svg)
-![Build Status](https://travis-ci.com/akaunting/money.svg)
-[![StyleCI](https://styleci.io/repos/112121508/shield?style=flat&branch=master)](https://styleci.io/repos/112121508)
-[![Quality](https://scrutinizer-ci.com/g/akaunting/money/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/akaunting/money)
-[![License](https://poser.pugx.org/akaunting/money/license.svg)](LICENSE.md)
+[![Release](https://img.shields.io/packagist/v/akaunting/money?label=release)](https://github.com/akaunting/money/releases)
+![Downloads](https://img.shields.io/packagist/dt/akaunting/money)
+![Tests](https://img.shields.io/github/workflow/status/akaunting/money/Tests?label=tests)
+[![StyleCI](https://github.styleci.io/repos/112121508/shield?style=flat&branch=master)](https://styleci.io/repos/112121508)
+[![Quality](https://img.shields.io/scrutinizer/quality/g/akaunting/money?label=quality)](https://scrutinizer-ci.com/g/akaunting/money)
+[![License](https://img.shields.io/github/license/akaunting/money)](LICENSE.md)
 
 This package intends to provide tools for formatting and conversion monetary values in an easy, yet powerful way for Laravel projects.
 
