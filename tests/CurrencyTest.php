@@ -1,8 +1,9 @@
 <?php
 
 use Akaunting\Money\Currency;
+use PHPUnit\Framework\TestCase;
 
-class CurrencyTest extends PHPUnit_Framework_TestCase
+class CurrencyTest extends TestCase
 {
     public function testFactoryMethods()
     {
@@ -10,11 +11,10 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Currency::TRY(), new Currency('TRY'));
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     */
     public function testCantInstantiateUnknownCurrency()
     {
+        $this->expectException(OutOfBoundsException::class);
+
         new Currency('unknown');
     }
 

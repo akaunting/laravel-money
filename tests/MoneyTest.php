@@ -2,14 +2,10 @@
 
 use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
+use PHPUnit\Framework\TestCase;
 
-class MoneyTest extends PHPUnit_Framework_TestCase
+class MoneyTest extends TestCase
 {
-    protected function setUp()
-    {
-        Money::setLocale('pt_BR');
-    }
-
     public function testFactoryMethods()
     {
         $this->assertEquals(Money::USD(25), Money::USD(10)->add(Money::USD(15)));
@@ -34,11 +30,10 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         }, new Currency('USD')), new Money(1, new Currency('USD')));
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
     public function testStringThrowsException()
     {
+        $this->expectException(UnexpectedValueException::class);
+
         new Money('foo', new Currency('USD'));
     }
 
@@ -50,20 +45,18 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('en_US', Money::getLocale());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidOperandThrowsException()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $m = new Money(100, new Currency('USD'));
         $m->convert(new Currency('USD'), 'foo');
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     */
     public function testInvalidRoundingModeThrowsException()
     {
+        $this->expectException(OutOfBoundsException::class);
+
         $m = new Money(100, new Currency('USD'));
         $m->convert(new Currency('USD'), 1, 'foo');
     }
@@ -121,11 +114,10 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($m3->lessThanOrEqual($m2));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testDifferentCurrenciesCannotBeCompared()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $m1 = new Money(100, new Currency('USD'));
         $m2 = new Money(100, new Currency('TRY'));
 
@@ -145,16 +137,16 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $m1 = new Money(1100.101, new Currency('USD'));
         $m2 = new Money(1100.021, new Currency('USD'));
         $sum = $m1->add($m2);
+
         $this->assertEquals(new Money(2200.122, new Currency('USD')), $sum);
         $this->assertNotEquals($sum, $m1);
         $this->assertNotEquals($sum, $m2);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testDifferentCurrenciesCannotBeAdded()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $m1 = new Money(100, new Currency('USD'));
         $m2 = new Money(100, new Currency('TRY'));
 
@@ -172,11 +164,10 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertNotSame($diff, $m2);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testDifferentCurrenciesCannotBeSubtracted()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $m1 = new Money(100, new Currency('USD'));
         $m2 = new Money(100, new Currency('TRY'));
 
@@ -201,11 +192,10 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($m1, $m2->divide(2));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidDivisor()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $m = new Money(100, new Currency('USD'));
         $m->divide(0);
     }

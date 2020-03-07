@@ -2,8 +2,9 @@
 
 use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
+use PHPUnit\Framework\TestCase;
 
-class HelpersTest extends PHPUnit_Framework_TestCase
+class HelpersTest extends TestCase
 {
     public function testMoney()
     {
