@@ -532,9 +532,6 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
     {
         $this->currency = $currency;
 
-        $this->assertOperand($ratio);
-        $this->assertRoundingMode($roundingMode);
-
         return $this->multiply($ratio, $roundingMode);
     }
 
@@ -583,6 +580,9 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     public function multiply($multiplier, $roundingMode = self::ROUND_HALF_UP)
     {
+        $this->assertOperand($multiplier);
+        $this->assertRoundingMode($roundingMode);
+
         return new static(round($this->amount * $multiplier, $this->currency->getPrecision(), $roundingMode), $this->currency);
     }
 
