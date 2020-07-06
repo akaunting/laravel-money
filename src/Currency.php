@@ -253,7 +253,7 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
         $this->currency = $currency;
         $this->name = (string) $attributes['name'];
         $this->code = (int) $attributes['code'];
-        $this->rate = (float) $attributes['rate'] ?? 1;
+        $this->rate = (float) isset($attributes['rate']) ? $attributes['rate'] : 1;
         $this->precision = (int) $attributes['precision'];
         $this->subunit = (int) $attributes['subunit'];
         $this->symbol = (string) $attributes['symbol'];
