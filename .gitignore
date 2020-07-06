@@ -1,4 +1,5 @@
 /.idea
+/.history
 /.vscode
 /tests/databases
 /vendor

@@ -194,6 +194,11 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
     protected $code;
 
     /**
+     * @var float
+     */
+    protected $rate;
+
+    /**
      * @var int
      */
     protected $precision;
@@ -248,6 +253,7 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
         $this->currency = $currency;
         $this->name = (string) $attributes['name'];
         $this->code = (int) $attributes['code'];
+        $this->rate = (float) $attributes['rate'] ?? 1;
         $this->precision = (int) $attributes['precision'];
         $this->subunit = (int) $attributes['subunit'];
         $this->symbol = (string) $attributes['symbol'];
@@ -335,6 +341,16 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * getRate.
+     *
+     * @return int
+     */
+    public function getRate()
+    {
+        return $this->rate;
     }
 
     /**
@@ -435,6 +451,7 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
         return [$this->currency => [
             'name'                => $this->name,
             'code'                => $this->code,
+            'rate'                => $this->rate,
             'precision'           => $this->precision,
             'subunit'             => $this->subunit,
             'symbol'              => $this->symbol,

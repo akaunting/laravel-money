@@ -198,6 +198,11 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
     protected $currency;
 
     /**
+     * @var bool
+     */
+    protected $mutable = false;
+
+    /**
      * @var string
      */
     protected static $locale;
@@ -236,7 +241,11 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
         }
 
         if (is_float($amount)) {
-            return (float) round($this->convertAmount($amount, $convert), $this->currency->getPrecision());
+            return (float) $this->round($this->convertAmount($amount, $convert));
+        }
+
+        if ($amount instanceof static) {
+            return $this->convertAmount($amount->getAmount(), $convert);
         }
 
         throw new UnexpectedValueException('Invalid amount "' . $amount . '"');
@@ -377,27 +386,53 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
     /**
      * assertRoundingMode.
      *
-     * @param int $roundingMode
+     * @param int $mode
      *
      * @throws \OutOfBoundsException
      */
-    protected function assertRoundingMode($roundingMode)
+    protected function assertRoundingMode($mode)
     {
-        $roundingModes = [self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP];
+        $modes = [self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP];
 
-        if (!in_array($roundingMode, $roundingModes)) {
-            throw new OutOfBoundsException('Rounding mode should be ' . implode(' | ', $roundingModes));
+        if (!in_array($mode, $modes)) {
+            throw new OutOfBoundsException('Rounding mode should be ' . implode(' | ', $modes));
+        }
+    }
+
+    /**
+     * assertDivisor.
+     *
+     * @param int|float $divisor
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function assertDivisor($divisor)
+    {
+        if ($divisor == 0) {
+            throw new InvalidArgumentException('Division by zero');
         }
     }
 
     /**
      * getAmount.
      *
+     * @param bool $rounded
+     *
      * @return int|float
      */
-    public function getAmount()
+    public function getAmount($rounded = false)
     {
-        return $this->amount;
+        return $rounded ? $this-> getRoundedAmount() : $this->amount;
+    }
+
+    /**
+     * getRoundedAmount.
+     *
+     * @return int|float
+     */
+    public function getRoundedAmount()
+    {
+        return $this->round($this->amount);
     }
 
     /**
@@ -407,7 +442,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      */
     public function getValue()
     {
-        return round($this->amount / $this->currency->getSubunit(), $this->currency->getPrecision());
+        return $this->round($this->amount / $this->currency->getSubunit());
     }
 
     /**
@@ -521,92 +556,144 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      *
      * @param \Akaunting\Money\Currency $currency
      * @param int|float                 $ratio
-     * @param int                       $roundingMode
+     * @param int                       $rounding_mode
      *
      * @throws \InvalidArgumentException
      * @throws \OutOfBoundsException
      *
      * @return \Akaunting\Money\Money
      */
-    public function convert(Currency $currency, $ratio, $roundingMode = self::ROUND_HALF_UP)
+    public function convert(Currency $currency, $ratio, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->currency = $currency;
 
-        return $this->multiply($ratio, $roundingMode);
+        return $this->multiply($ratio, $rounding_mode);
     }
 
     /**
      * add.
      *
-     * @param \Akaunting\Money\Money $addend
+     * @param $addend
+     * @param int $rounding_mode
      *
      * @throws \InvalidArgumentException
      *
      * @return \Akaunting\Money\Money
      */
-    public function add(self $addend)
+    public function add($addend, $rounding_mode = self::ROUND_HALF_UP)
     {
-        $this->assertSameCurrency($addend);
+        if ($addend instanceof static) {
+            $this->assertSameCurrency($addend);
 
-        return new static($this->amount + $addend->amount, $this->currency);
+            $addend = $addend->getAmount();
+        }
+
+        $amount = $this->round($this->amount + $addend, $rounding_mode);
+
+        if ($this->isImmutable()) {
+            return new static($amount, $this->currency);
+        }
+
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
      * subtract.
      *
-     * @param \Akaunting\Money\Money $subtrahend
+     * @param $subtrahend
+     * @param int $rounding_mode
      *
      * @throws \InvalidArgumentException
      *
      * @return \Akaunting\Money\Money
      */
-    public function subtract(self $subtrahend)
+    public function subtract($subtrahend, $rounding_mode = self::ROUND_HALF_UP)
     {
-        $this->assertSameCurrency($subtrahend);
+        if ($subtrahend instanceof static) {
+            $this->assertSameCurrency($subtrahend);
 
-        return new static($this->amount - $subtrahend->amount, $this->currency);
+            $subtrahend = $subtrahend->getAmount();
+        }
+
+        $amount = $this->round($this->amount - $subtrahend, $rounding_mode);
+
+        if ($this->isImmutable()) {
+            return new static($amount, $this->currency);
+        }
+
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
      * multiply.
      *
      * @param int|float $multiplier
-     * @param int       $roundingMode
+     * @param int       $rounding_mode
      *
      * @throws \InvalidArgumentException
      * @throws \OutOfBoundsException
      *
      * @return \Akaunting\Money\Money
      */
-    public function multiply($multiplier, $roundingMode = self::ROUND_HALF_UP)
+    public function multiply($multiplier, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($multiplier);
-        $this->assertRoundingMode($roundingMode);
 
-        return new static(round($this->amount * $multiplier, $this->currency->getPrecision(), $roundingMode), $this->currency);
+        $amount = $this->round($this->amount * $multiplier, $rounding_mode);
+
+        if ($this->isImmutable()) {
+            return new static($amount, $this->currency);
+        }
+
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
      * divide.
      *
      * @param int|float $divisor
-     * @param int       $roundingMode
+     * @param int       $rounding_mode
      *
      * @throws \InvalidArgumentException
      * @throws \OutOfBoundsException
      *
      * @return \Akaunting\Money\Money
      */
-    public function divide($divisor, $roundingMode = self::ROUND_HALF_UP)
+    public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($divisor);
-        $this->assertRoundingMode($roundingMode);
+        $this->assertDivisor($divisor);
 
-        if ($divisor == 0) {
-            throw new InvalidArgumentException('Division by zero');
+        $amount = $this->round($this->amount / $divisor, $rounding_mode);
+
+        if ($this->isImmutable()) {
+            return new static($amount, $this->currency);
         }
 
-        return new static(round($this->amount / $divisor, $this->currency->getPrecision(), $roundingMode), $this->currency);
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * round.
+     *
+     * @param int|float $amount
+     * @param int       $mode
+     *
+     * @return mixed
+     */
+    public function round($amount, $mode = self::ROUND_HALF_UP)
+    {
+        $this->assertRoundingMode($mode);
+
+        return round($amount, $this->currency->getPrecision(), $mode);
     }
 
     /**
@@ -769,6 +856,30 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
     public function render()
     {
         return $this->format();
+    }
+
+    public function immutable()
+    {
+        $this->mutable = false;
+
+        return new static($this->amount, $this->currency);
+    }
+
+    public function mutable()
+    {
+        $this->mutable = true;
+
+        return $this;
+    }
+
+    public function isMutable()
+    {
+        return $this->mutable === true;
+    }
+
+    public function isImmutable()
+    {
+        return !$this->isMutable();
     }
 
     /**
