@@ -1,6 +1,6 @@
 {
-   "name":"akaunting/money",
-   "description":"Currency formatting and conversion package for Laravel.",
+   "name":"akaunting/laravel-money",
+   "description":"Currency formatting and conversion package for Laravel",
    "keywords":[
       "laravel",
       "money",
