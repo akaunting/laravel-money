@@ -247,6 +247,18 @@ class MoneyTest extends TestCase
         $this->assertFalse($m6->isPositive());
     }
 
+    public function testWithoutZeroes()
+    {
+        $m1 = new Money(100, new Currency('USD'), true);
+        $m2 = new Money(100.50, new Currency('USD'), true);
+
+        $this->assertEquals('$100.00', $m1->format());
+        $this->assertEquals('$100', $m1->formatWithoutZeroes());
+
+        $this->assertEquals('$100.50', $m2->format());
+        $this->assertEquals('$100.50', $m2->formatWithoutZeroes());
+    }
+
     /**
      * @dataProvider providesFormatLocale
      */
