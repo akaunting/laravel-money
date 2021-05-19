@@ -813,6 +813,29 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
     }
 
     /**
+     * Format but don't show decimals if they are zero
+     *
+     * @return string
+     */
+    public function formatWithoutZeroes()
+    {
+        if ($this->getValue() !== round($this->getValue())) {
+            return $this->format();
+        }
+
+        $negative = $this->isNegative();
+        $value = $this->getValue();
+        $amount = $negative ? -$value : $value;
+        $thousands = $this->currency->getThousandsSeparator();
+        $decimals = $this->currency->getDecimalMark();
+        $prefix = $this->currency->getPrefix();
+        $suffix = $this->currency->getSuffix();
+        $value = number_format($amount, 0, $decimals, $thousands);
+
+        return ($negative ? '-' : '') . $prefix . $value . $suffix;
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
