@@ -16,7 +16,7 @@ if (!function_exists('money')) {
     function money($amount, $currency = null, $convert = false)
     {
         if (is_null($currency)) {
-            $currency = env('DEFAULT_CURRENCY', 'USD');
+            $currency = config('money.default_currency', 'USD');
         }
 
         return new Money($amount, currency($currency), $convert);

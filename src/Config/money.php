@@ -1,6 +1,8 @@
 <?php
 
 return [
+    
+    'default_currency' => env('DEFAULT_CURRENCY', 'USD'),
 
     'AED' => [
         'name'                => 'UAE Dirham',
