@@ -56,16 +56,15 @@ return [
         'decimal_mark'        => ',',
         'thousands_separator' => '.',
     ],
-
     'AOA' => [
         'name'                => 'Kwanza',
         'code'                => 973,
         'precision'           => 2,
-        'subunit'             => 100,
+        'subunit'             => 1,
         'symbol'              => 'Kz',
         'symbol_first'        => false,
-        'decimal_mark'        => '.',
-        'thousands_separator' => ',',
+        'decimal_mark'        => ',',
+        'thousands_separator' => '.',
     ],
 
     'ARS' => [
