@@ -646,7 +646,7 @@ return [
         'precision'           => 2,
         'subunit'             => 100,
         'symbol'              => 'kn',
-        'symbol_first'        => true,
+        'symbol_first'        => false,
         'decimal_mark'        => ',',
         'thousands_separator' => '.',
     ],
