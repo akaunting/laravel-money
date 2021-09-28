@@ -480,6 +480,8 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
      *
      * @return array
      */
+    
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();
