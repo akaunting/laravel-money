@@ -19,7 +19,9 @@ class Provider extends ServiceProvider
         ], 'money');
 
         Money::setLocale($this->app->make('translator')->getLocale());
-        Currency::setCurrencies($this->app->make('config')->get('money'));
+        $config = $this->app->make('config')->get('money');
+        $currencies = isset($config['currencies']) ? $config['currencies'] : $config;
+        Currency::setCurrencies($currencies);
 
         // Register blade directives
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
