@@ -129,7 +129,7 @@ return [
         'precision'           => 2,
         'subunit'             => 100,
         'symbol'              => '$',
-        'symbol_first'        => false,
+        'symbol_first'        => true,
         'decimal_mark'        => '.',
         'thousands_separator' => ',',
     ],
