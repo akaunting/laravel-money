@@ -8,9 +8,9 @@
 
 This package intends to provide tools for formatting and conversion monetary values in an easy, yet powerful way for Laravel projects.
 
-### Why not use the moneyphp package?
+### Why not use the `moneyphp` package?
 
-Because `moneyphp` uses the `intl` extension for number formatting. `intl` extension isn't present by default on PHP installs and can give [different results](http://moneyphp.org/en/latest/features/formatting.html#intl-formatter) in different servers.
+Because it uses the `intl` extension for number formatting. `intl` extension isn't present by default on PHP installs and can give [different results](http://moneyphp.org/en/latest/features/formatting.html#intl-formatter) in different servers.
 
 ## Getting Started
 
@@ -22,15 +22,7 @@ Run the following command:
 composer require akaunting/laravel-money
 ```
 
-### 2. Register (for Laravel < 5.5)
-
-Register the service provider in `config/app.php`
-
-```php
-Akaunting\Money\Provider::class,
-```
-
-### 3. Publish
+### 2. Publish
 
 Publish config file.
 
@@ -38,8 +30,7 @@ Publish config file.
 php artisan vendor:publish --tag=money
 ```
 
-
-### 4. Configure
+### 3. Configure
 
 You can change the currencies information of your app from `config/money.php` file
 
@@ -97,7 +88,7 @@ currency('USD')
 
 ## Changelog
 
-Please see [Releases](../../releases) for more information what has changed recently.
+Please see [Releases](../../releases) for more information on what has changed recently.
 
 ## Contributing
 
@@ -105,7 +96,7 @@ Pull requests are more than welcome. You must follow the PSR coding standards.
 
 ## Security
 
-If you discover any security related issues, please email security@akaunting.com instead of using the issue tracker.
+Please review [our security policy](https://github.com/akaunting/laravel-money/security/policy) on how to report security vulnerabilities.
 
 ## Credits
 

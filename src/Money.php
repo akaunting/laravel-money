@@ -866,7 +866,7 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
