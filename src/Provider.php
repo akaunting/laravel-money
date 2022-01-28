@@ -2,8 +2,8 @@
 
 namespace Akaunting\Money;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
 
 class Provider extends ServiceProvider
 {
@@ -21,17 +21,12 @@ class Provider extends ServiceProvider
         Money::setLocale($this->app->make('translator')->getLocale());
         Currency::setCurrencies($this->app->make('config')->get('money'));
 
-        // Register blade directives
-        $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
-            $bladeCompiler->directive('money', function ($expression) {
-                return "<?php echo money($expression); ?>";
-            });
+        Blade::directive('money', function ($expression) {
+            return "<?php echo money($expression); ?>";
         });
 
-        $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
-            $bladeCompiler->directive('currency', function ($expression) {
-                return "<?php echo currency($expression); ?>";
-            });
+        Blade::directive('currency', function ($expression) {
+            return "<?php echo currency($expression); ?>";
         });
     }
 
