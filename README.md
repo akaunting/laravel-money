@@ -86,6 +86,18 @@ currency('USD')
 @currency('USD')
 ```
 
+### Blade Component
+
+Same as the directive, there is also a `blade` component for you to create money and currency in your views:
+
+```html
+<x-money amount="500" currency="USD" />
+or
+<x-money amount="500" currency="USD" convert />
+
+<x-currency currency="USD" />
+```
+
 ## Changelog
 
 Please see [Releases](../../releases) for more information on what has changed recently.
