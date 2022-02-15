@@ -44,11 +44,11 @@ class Provider extends ServiceProvider
         }
 
         Blade::directive('money', function ($expression) {
-            return "<?php money($expression); ?>";
+            return "<?php echo money($expression); ?>";
         });
 
         Blade::directive('currency', function ($expression) {
-            return "<?php currency($expression); ?>";
+            return "<?php echo currency($expression); ?>";
         });
 
         return $this;
