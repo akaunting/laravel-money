@@ -4,6 +4,7 @@ namespace Akaunting\Money;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+
 class Provider extends ServiceProvider
 {
     /**
