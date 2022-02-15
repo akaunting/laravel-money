@@ -4,8 +4,6 @@ namespace Akaunting\Money;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
-
 class Provider extends ServiceProvider
 {
     /**
@@ -38,20 +36,21 @@ class Provider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/Resources/views', 'money');
     }
 
-    public function registerBladeDirectives()
+    protected function registerBladeDirectives(): self
     {
-        // Register blade directives
-        $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
-            $bladeCompiler->directive('money', function ($expression) {
-                return "<?php echo money($expression); ?>";
-            });
+        if (! $this->app->has('blade.compiler')) {
+            return $this;
+        }
+
+        Blade::directive('money', function ($expression) {
+            return "<?php money($expression); ?>";
         });
 
-        $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
-            $bladeCompiler->directive('currency', function ($expression) {
-                return "<?php echo currency($expression); ?>";
-            });
+        Blade::directive('currency', function ($expression) {
+            return "<?php currency($expression); ?>";
         });
+
+        return $this;
     }
 
     public function registerBladeComponents()
