@@ -1,11 +1,17 @@
 <?php
 
+use Akaunting\Money\Casts\MoneyCast;
 use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
 use PHPUnit\Framework\TestCase;
 
 class MoneyTest extends TestCase
 {
+    public function testCastUsing()
+    {
+        $this->assertSame(MoneyCast::class, Money::castUsing([]));
+    }
+
     public function testFactoryMethods()
     {
         $this->assertEquals(Money::USD(25), Money::USD(10)->add(Money::USD(15)));
