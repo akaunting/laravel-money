@@ -2,6 +2,9 @@
 
 namespace Akaunting\Money;
 
+use Akaunting\Money\Casts\CurrencyCast;
+use Illuminate\Contracts\Database\Eloquent\Castable;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
@@ -176,7 +179,7 @@ use OutOfBoundsException;
  * @method static Currency ZMW()
  * @method static Currency ZWL()
  */
-class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
+class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
     /**
      * @var string
@@ -273,6 +276,18 @@ class Currency implements Arrayable, Jsonable, JsonSerializable, Renderable
     public static function __callStatic($method, array $arguments)
     {
         return new static($method, $arguments);
+    }
+
+    /**
+     * castUsing
+     *
+     * @param array $arguments
+     *
+     * @return class-string<CastsAttributes>
+     */
+    public static function castUsing(array $arguments): string
+    {
+        return CurrencyCast::class;
     }
 
     /**

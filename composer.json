@@ -19,12 +19,14 @@
    ],
    "require":{
       "php":">=8.0",
+      "illuminate/contracts": ">=8.0",
       "illuminate/support":">=8.0",
       "illuminate/view":">=8.0"
    },
    "require-dev":{
       "mockery/mockery":">=1.4",
-      "phpunit/phpunit":">=9.0"
+      "phpunit/phpunit":">=9.0",
+      "illuminate/database": "^9.8"
    },
    "autoload":{
       "psr-4":{

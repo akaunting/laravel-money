@@ -1,10 +1,16 @@
 <?php
 
+use Akaunting\Money\Casts\CurrencyCast;
 use Akaunting\Money\Currency;
 use PHPUnit\Framework\TestCase;
 
 class CurrencyTest extends TestCase
 {
+    public function testCastUsing()
+    {
+        $this->assertSame(CurrencyCast::class, Currency::castUsing([]));
+    }
+
     public function testFactoryMethods()
     {
         $this->assertEquals(Currency::USD(), new Currency('USD'));

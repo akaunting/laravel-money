@@ -2,8 +2,11 @@
 
 namespace Akaunting\Money;
 
+use Akaunting\Money\Casts\MoneyCast;
 use BadFunctionCallException;
 use Closure;
+use Illuminate\Contracts\Database\Eloquent\Castable;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
@@ -180,7 +183,7 @@ use UnexpectedValueException;
  * @method static Money ZMW(mixed $amount, bool $convert = false)
  * @method static Money ZWL(mixed $amount, bool $convert = false)
  */
-class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
+class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
@@ -327,6 +330,18 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
         $convert = (isset($arguments[1]) && is_bool($arguments[1])) ? (bool) $arguments[1] : false;
 
         return new static($arguments[0], new Currency($method), $convert);
+    }
+
+    /**
+     * castUsing
+     *
+     * @param array $arguments
+     *
+     * @return class-string<CastsAttributes>
+     */
+    public static function castUsing(array $arguments): string
+    {
+        return MoneyCast::class;
     }
 
     /**
