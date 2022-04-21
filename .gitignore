@@ -1,6 +1,7 @@
 /.idea
 /.history
 /.vscode
+/build
 /tests/databases
 /vendor
 .DS_Store

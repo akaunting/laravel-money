@@ -8,12 +8,7 @@ use Illuminate\View\Compilers\BladeCompiler;
 
 class Provider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__ . '/Config/money.php' => config_path('money.php'),
@@ -26,19 +21,14 @@ class Provider extends ServiceProvider
         $this->registerBladeComponents();
     }
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/Config/money.php', 'money');
 
         $this->loadViewsFrom(__DIR__ . '/Resources/views', 'money');
     }
 
-    public function registerBladeDirectives()
+    public function registerBladeDirectives(): void
     {
         // Register blade directives
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {

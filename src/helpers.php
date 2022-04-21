@@ -4,16 +4,7 @@ use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
 
 if (!function_exists('money')) {
-    /**
-     * Instance of money class.
-     *
-     * @param mixed  $amount
-     * @param string $currency
-     * @param bool   $convert
-     *
-     * @return \Akaunting\Money\Money
-     */
-    function money($amount, $currency = null, $convert = false)
+    function money(mixed $amount, string $currency = null, bool $convert = false): Money
     {
         if (is_null($currency)) {
             $currency = env('DEFAULT_CURRENCY', 'USD');
@@ -24,14 +15,7 @@ if (!function_exists('money')) {
 }
 
 if (!function_exists('currency')) {
-    /**
-     * Instance of currency class.
-     *
-     * @param string $currency
-     *
-     * @return \Akaunting\Money\Currency
-     */
-    function currency($currency)
+    function currency(string $currency): Currency
     {
         return new Currency($currency);
     }

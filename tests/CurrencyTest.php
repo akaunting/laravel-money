@@ -1,7 +1,10 @@
 <?php
 
+namespace Akaunting\Tests\Money;
+
 use Akaunting\Money\Casts\CurrencyCast;
 use Akaunting\Money\Currency;
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 
 class CurrencyTest extends TestCase
@@ -42,6 +45,7 @@ class CurrencyTest extends TestCase
         $this->assertEquals('USD', $c1->getCurrency());
         $this->assertEquals('US Dollar', $c1->getName());
         $this->assertEquals(840, $c1->getCode());
+        $this->assertEquals(1, $c1->getRate());
         $this->assertEquals(2, $c1->getPrecision());
         $this->assertEquals(100, $c1->getSubunit());
         $this->assertEquals('$', $c1->getSymbol());

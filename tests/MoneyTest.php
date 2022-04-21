@@ -1,9 +1,14 @@
 <?php
 
+namespace Akaunting\Tests\Money;
+
 use Akaunting\Money\Casts\MoneyCast;
 use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
+use InvalidArgumentException;
+use NumberFormatter;
 use PHPUnit\Framework\TestCase;
+use UnexpectedValueException;
 
 class MoneyTest extends TestCase
 {
@@ -16,6 +21,14 @@ class MoneyTest extends TestCase
     {
         $this->assertEquals(Money::USD(25), Money::USD(10)->add(Money::USD(15)));
         $this->assertEquals(Money::TRY(25), Money::TRY(10)->add(Money::TRY(15)));
+    }
+
+    public function testParsingAmountFromMoney()
+    {
+        $money1 = Money::USD(1000);
+        $money2 = Money::USD($money1);
+
+        $this->assertEquals($money1, $money2);
     }
 
     public function testBigValue()
@@ -51,22 +64,6 @@ class MoneyTest extends TestCase
         $this->assertEquals('en_US', Money::getLocale());
     }
 
-    public function testInvalidOperandThrowsException()
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $m = new Money(100, new Currency('USD'));
-        $m->convert(new Currency('USD'), 'foo');
-    }
-
-    public function testInvalidRoundingModeThrowsException()
-    {
-        $this->expectException(OutOfBoundsException::class);
-
-        $m = new Money(100, new Currency('USD'));
-        $m->convert(new Currency('USD'), 1, 'foo');
-    }
-
     public function testConvertUnit()
     {
         $m1 = new Money(100, new Currency('USD'), true);
@@ -85,6 +82,13 @@ class MoneyTest extends TestCase
         $this->assertNotEmpty($m->toArray());
         $this->assertJson($m->toJson());
         $this->assertNotEmpty($m->jsonSerialize());
+    }
+
+    public function testGettingRoundedAmount()
+    {
+        $money = Money::USD(1000.213);
+
+        $this->assertSame(1000.21, $money->getRoundedAmount());
     }
 
     public function testSameCurrency()
@@ -149,6 +153,17 @@ class MoneyTest extends TestCase
         $this->assertNotEquals($sum, $m2);
     }
 
+    public function testMutableAddition()
+    {
+        $money1 = Money::USD(1100.101)->mutable();
+        $money2 = Money::USD(1100.021);
+
+        $money1->add($money2);
+
+        $this->assertEquals(Money::USD(2200.122)->mutable(), $money1);
+        $this->assertNotEquals(Money::USD(2200.122)->mutable(), $money2);
+    }
+
     public function testDifferentCurrenciesCannotBeAdded()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -170,6 +185,17 @@ class MoneyTest extends TestCase
         $this->assertNotSame($diff, $m2);
     }
 
+    public function testMutableSubtraction()
+    {
+        $money1 = Money::USD(100.10)->mutable();
+        $money2 = Money::USD(100.02);
+
+        $money1->subtract($money2);
+
+        $this->assertEquals(Money::USD(0.08)->mutable(), $money1);
+        $this->assertNotEquals(Money::USD(0.08)->mutable(), $money2);
+    }
+
     public function testDifferentCurrenciesCannotBeSubtracted()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -189,6 +215,17 @@ class MoneyTest extends TestCase
         $this->assertNotEquals($m1, $m2->multiply(10));
     }
 
+    public function testMutableMultiplication()
+    {
+        $money1 = Money::USD(15);
+        $money2 = Money::USD(1)->mutable();
+
+        $money2->multiply(15);
+
+        $this->assertEquals(Money::USD(15)->mutable(), $money2);
+        $this->assertTrue($money2->equals($money1));
+    }
+
     public function testDivision()
     {
         $m1 = new Money(2, new Currency('USD'));
@@ -196,6 +233,17 @@ class MoneyTest extends TestCase
 
         $this->assertEquals($m1, $m2->divide(5));
         $this->assertNotEquals($m1, $m2->divide(2));
+    }
+
+    public function testMutableDivision()
+    {
+        $money1 = Money::USD(2);
+        $money2 = Money::USD(10)->mutable();
+
+        $money2->divide(5);
+
+        $this->assertEquals(Money::USD(2)->mutable(), $money2);
+        $this->assertTrue($money2->equals($money1));
     }
 
     public function testInvalidDivisor()
@@ -319,6 +367,14 @@ class MoneyTest extends TestCase
     public function testFormat($expected, $cur, $amount, $message)
     {
         $this->assertEquals($expected, (string) Money::$cur($amount), $message);
+    }
+
+    public function testMakingMutable()
+    {
+        $money = Money::USD(1000)->immutable();
+
+        $this->assertTrue($money->isImmutable());
+        $this->assertFalse($money->mutable()->isImmutable());
     }
 
     public function providesFormat()
