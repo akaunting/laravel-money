@@ -4,7 +4,6 @@ namespace Akaunting\Tests\Money;
 
 use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
-use Orchestra\Testbench\TestCase;
 
 class HelpersTest extends TestCase
 {
