@@ -3,7 +3,6 @@
 namespace Akaunting\Money;
 
 use Akaunting\Money\Casts\MoneyCast;
-use Akaunting\Money\Enums\RoundingMode;
 use BadFunctionCallException;
 use Closure;
 use Illuminate\Contracts\Database\Eloquent\Castable;
@@ -13,6 +12,7 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
 use InvalidArgumentException;
 use JsonSerializable;
+use OutOfBoundsException;
 use UnexpectedValueException;
 
 /**
@@ -185,6 +185,14 @@ use UnexpectedValueException;
  */
 class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
+    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+
+    const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+
+    const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+
+    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+
     protected int|float $amount;
 
     protected Currency $currency;
@@ -312,6 +320,15 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         }
     }
 
+    protected function assertRoundingMode($mode)
+    {
+        $modes = [self::ROUND_HALF_UP, self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD];
+
+        if (! in_array($mode, $modes)) {
+            throw new OutOfBoundsException('Rounding mode should be ' . implode(' | ', $modes));
+        }
+    }
+
     /**
      * assertDivisor.
      *
@@ -326,7 +343,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
     public function getAmount(bool $rounded = false): int|float
     {
-        return $rounded ? $this-> getRoundedAmount() : $this->amount;
+        return $rounded ? $this->getRoundedAmount() : $this->amount;
     }
 
     public function getRoundedAmount(): int|float
@@ -394,14 +411,14 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this->compare($other) <= 0;
     }
 
-    public function convert(Currency $currency, int|float $ratio, RoundingMode $roundingMode = RoundingMode::HalfUp): Money
+    public function convert(Currency $currency, int|float $ratio, int $roundingMode = self::ROUND_HALF_UP): Money
     {
         $this->currency = $currency;
 
         return $this->multiply($ratio, $roundingMode);
     }
 
-    public function add(mixed $addend, RoundingMode $roundingMode = RoundingMode::HalfUp): Money
+    public function add(mixed $addend, int $roundingMode = self::ROUND_HALF_UP): Money
     {
         if ($addend instanceof static) {
             $this->assertSameCurrency($addend);
@@ -420,7 +437,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this;
     }
 
-    public function subtract(mixed $subtrahend, RoundingMode $roundingMode = RoundingMode::HalfUp): Money
+    public function subtract(mixed $subtrahend, int $roundingMode = self::ROUND_HALF_UP): Money
     {
         if ($subtrahend instanceof static) {
             $this->assertSameCurrency($subtrahend);
@@ -439,7 +456,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this;
     }
 
-    public function multiply(int|float $multiplier, RoundingMode $roundingMode = RoundingMode::HalfUp): Money
+    public function multiply(int|float $multiplier, int $roundingMode = self::ROUND_HALF_UP): Money
     {
         $amount = $this->round($this->amount * $multiplier, $roundingMode);
 
@@ -452,7 +469,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this;
     }
 
-    public function divide(int|float $divisor, RoundingMode $roundingMode = RoundingMode::HalfUp): Money
+    public function divide(int|float $divisor, int $roundingMode = self::ROUND_HALF_UP): Money
     {
         $this->assertDivisor($divisor);
 
@@ -467,9 +484,11 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this;
     }
 
-    public function round(int|float $amount, RoundingMode $mode = RoundingMode::HalfUp): float
+    public function round(int|float $amount, int $mode = self::ROUND_HALF_UP): float
     {
-        return round($amount, $this->currency->getPrecision(), $mode->value);
+        $this->assertRoundingMode($mode);
+
+        return round($amount, $this->currency->getPrecision(), $mode);
     }
 
     public function allocate(array $ratios): array

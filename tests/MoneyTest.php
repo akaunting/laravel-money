@@ -7,6 +7,7 @@ use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
 use InvalidArgumentException;
 use NumberFormatter;
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
 
@@ -89,6 +90,16 @@ class MoneyTest extends TestCase
         $money = Money::USD(1000.213);
 
         $this->assertSame(1000.21, $money->getRoundedAmount());
+    }
+
+    public function testRoundingWithInvalidMode()
+    {
+        $this->expectException(OutOfBoundsException::class);
+        $this->expectExceptionMessage('Rounding mode should be 1 | 2 | 3 | 4');
+
+        $money = Money::USD(1000.213);
+
+        $money->round(2, 5);
     }
 
     public function testSameCurrency()
