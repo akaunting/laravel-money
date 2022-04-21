@@ -250,8 +250,8 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
 
     public static function getCurrencies(): array
     {
-        if (!isset(static::$currencies)) {
-            static::$currencies = require __DIR__ . '/Config/money.php';
+        if (! isset(static::$currencies)) {
+            static::$currencies = require __DIR__ . '/../config/money.php';
         }
 
         return static::$currencies;

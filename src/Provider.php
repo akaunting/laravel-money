@@ -11,7 +11,7 @@ class Provider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/Config/money.php' => config_path('money.php'),
+            __DIR__ . '/../money.php' => config_path('money.php'),
         ], 'money');
 
         Money::setLocale($this->app->make('translator')->getLocale());
@@ -23,21 +23,18 @@ class Provider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/Config/money.php', 'money');
+        $this->mergeConfigFrom(__DIR__ . '/../config/money.php', 'money');
 
-        $this->loadViewsFrom(__DIR__ . '/Resources/views', 'money');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'money');
     }
 
     public function registerBladeDirectives(): void
     {
-        // Register blade directives
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
             $bladeCompiler->directive('money', function ($expression) {
                 return "<?php echo money($expression); ?>";
             });
-        });
 
-        $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
             $bladeCompiler->directive('currency', function ($expression) {
                 return "<?php echo currency($expression); ?>";
             });
