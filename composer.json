@@ -19,9 +19,9 @@
    ],
    "require":{
       "php": "^8.0",
-      "illuminate/contracts": "^8.53|^9.0",
-      "illuminate/support": "^8.53|^9.0",
-      "illuminate/view": "^8.53|^9.0",
+      "illuminate/contracts": "^8.67|^9.0",
+      "illuminate/support": "^8.67|^9.0",
+      "illuminate/view": "^8.67|^9.0",
       "vlucas/phpdotenv": "^5.4.1"
    },
    "require-dev":{
