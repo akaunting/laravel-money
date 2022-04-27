@@ -1,6 +1,6 @@
 <?php
 
-namespace Akaunting\Tests\Money\Casts;
+namespace Akaunting\Money\Tests\Casts;
 
 use Akaunting\Money\Casts\CurrencyCast;
 use Akaunting\Money\Currency;

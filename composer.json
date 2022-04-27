@@ -38,7 +38,7 @@
    },
    "autoload-dev": {
        "psr-4": {
-           "Akaunting\\Tests\\Money\\": "tests"
+           "Akaunting\\Money\\Tests\\": "tests"
        }
    },
    "extra":{

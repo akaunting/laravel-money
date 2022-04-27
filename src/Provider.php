@@ -11,7 +11,7 @@ class Provider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../money.php' => config_path('money.php'),
+            __DIR__ . '/../config/money.php' => config_path('money.php'),
         ], 'money');
 
         Money::setLocale($this->app->make('translator')->getLocale());

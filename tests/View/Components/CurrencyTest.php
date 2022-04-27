@@ -1,8 +1,8 @@
 <?php
 
-namespace Akaunting\Tests\Money\View\Components;
+namespace Akaunting\Money\Tests\View\Components;
 
-use Akaunting\Tests\Money\TestCase;
+use Akaunting\Money\Tests\TestCase;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 
 class CurrencyTest extends TestCase
