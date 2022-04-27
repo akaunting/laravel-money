@@ -3,7 +3,6 @@
 ![Downloads](https://img.shields.io/packagist/dt/akaunting/laravel-money)
 ![Tests](https://img.shields.io/github/workflow/status/akaunting/laravel-money/Tests?label=tests)
 [![StyleCI](https://github.styleci.io/repos/112121508/shield?style=flat&branch=master)](https://styleci.io/repos/112121508)
-[![Quality](https://img.shields.io/scrutinizer/quality/g/akaunting/laravel-money?label=quality)](https://scrutinizer-ci.com/g/akaunting/laravel-money)
 [![License](https://img.shields.io/github/license/akaunting/laravel-money)](LICENSE.md)
 
 This package intends to provide tools for formatting and conversion monetary values in an easy, yet powerful way for Laravel projects.
