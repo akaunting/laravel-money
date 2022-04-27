@@ -8,6 +8,13 @@ use Illuminate\View\Compilers\BladeCompiler;
 
 class Provider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/money.php', 'money');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'money');
+    }
+
     public function boot(): void
     {
         $this->publishes([
@@ -19,13 +26,6 @@ class Provider extends ServiceProvider
 
         $this->registerBladeDirectives();
         $this->registerBladeComponents();
-    }
-
-    public function register(): void
-    {
-        $this->mergeConfigFrom(__DIR__ . '/../config/money.php', 'money');
-
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'money');
     }
 
     public function registerBladeDirectives(): void
@@ -41,7 +41,7 @@ class Provider extends ServiceProvider
         });
     }
 
-    public function registerBladeComponents()
+    public function registerBladeComponents(): void
     {
         Blade::component('money', \Akaunting\Money\View\Components\Money::class);
         Blade::component('currency', \Akaunting\Money\View\Components\Currency::class);
