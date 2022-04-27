@@ -3,33 +3,16 @@
 namespace Akaunting\Money\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class Currency extends Component
 {
-    /**
-     * The Currency currency.
-     *
-     * @var string
-     */
-    public $currency;
-
-    /**
-     * Create the component instance.
-     *
-     * @param string $currency
-     * @return void
-     */
-    public function __construct($currency)
+    public function __construct(public string $currency)
     {
-        $this->currency = $currency;
+        //
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\View\View|\Closure|string
-     */
-    public function render()
+    public function render(): View
     {
         return view('money::components.currency');
     }

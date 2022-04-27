@@ -181,69 +181,34 @@ use OutOfBoundsException;
  */
 class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
-    /**
-     * @var string
-     */
-    protected $currency;
+    protected string $currency;
 
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var int
-     */
-    protected $code;
+    protected int $code;
 
-    /**
-     * @var float
-     */
-    protected $rate;
+    protected float $rate;
 
-    /**
-     * @var int
-     */
-    protected $precision;
+    protected int $precision;
 
-    /**
-     * @var int
-     */
-    protected $subunit;
+    protected int $subunit;
 
-    /**
-     * @var string
-     */
-    protected $symbol;
+    protected string $symbol;
 
-    /**
-     * @var bool
-     */
-    protected $symbolFirst;
+    protected bool $symbolFirst;
 
-    /**
-     * @var string
-     */
-    protected $decimalMark;
+    protected string $decimalMark;
 
-    /**
-     * @var string
-     */
-    protected $thousandsSeparator;
+    protected string $thousandsSeparator;
 
-    /**
-     * @var array
-     */
-    protected static $currencies;
+    protected static array $currencies;
 
     /**
      * Create a new instance.
      *
-     * @param string $currency
-     *
-     * @throws \OutOfBoundsException
+     * @throws OutOfBoundsException
      */
-    public function __construct($currency)
+    public function __construct(string $currency)
     {
         $currency = strtoupper(trim($currency));
         $currencies = static::getCurrencies();
@@ -265,24 +230,12 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
         $this->thousandsSeparator = (string) $attributes['thousands_separator'];
     }
 
-    /**
-     * __callStatic.
-     *
-     * @param string $method
-     * @param array  $arguments
-     *
-     * @return \Akaunting\Money\Currency
-     */
-    public static function __callStatic($method, array $arguments)
+    public static function __callStatic(string $method, array $arguments): Currency
     {
-        return new static($method, $arguments);
+        return new static($method);
     }
 
     /**
-     * castUsing
-     *
-     * @param array $arguments
-     *
      * @return class-string<CastsAttributes>
      */
     public static function castUsing(array $arguments): string
@@ -290,150 +243,76 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
         return CurrencyCast::class;
     }
 
-    /**
-     * setCurrencies.
-     *
-     * @param array $currencies
-     *
-     * @return void
-     */
-    public static function setCurrencies(array $currencies)
+    public static function setCurrencies(array $currencies): void
     {
         static::$currencies = $currencies;
     }
 
-    /**
-     * getCurrencies.
-     *
-     * @return array
-     */
-    public static function getCurrencies()
+    public static function getCurrencies(): array
     {
-        if (!isset(static::$currencies)) {
-            static::$currencies = require __DIR__ . '/Config/money.php';
+        if (! isset(static::$currencies)) {
+            static::$currencies = require __DIR__ . '/../config/money.php';
         }
 
-        return (array) static::$currencies;
+        return static::$currencies;
     }
 
-    /**
-     * equals.
-     *
-     * @param \Akaunting\Money\Currency $currency
-     *
-     * @return bool
-     */
-    public function equals(self $currency)
+    public function equals(Currency $currency): bool
     {
         return $this->getCurrency() === $currency->getCurrency();
     }
 
-    /**
-     * getCurrency.
-     *
-     * @return string
-     */
-    public function getCurrency()
+    public function getCurrency(): string
     {
         return $this->currency;
     }
 
-    /**
-     * getName.
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * getCode.
-     *
-     * @return int
-     */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
 
-    /**
-     * getRate.
-     *
-     * @return int
-     */
-    public function getRate()
+    public function getRate(): int
     {
         return $this->rate;
     }
 
-    /**
-     * getPrecision.
-     *
-     * @return int
-     */
-    public function getPrecision()
+    public function getPrecision(): int
     {
         return $this->precision;
     }
 
-    /**
-     * getSubunit.
-     *
-     * @return int
-     */
-    public function getSubunit()
+    public function getSubunit(): int
     {
         return $this->subunit;
     }
 
-    /**
-     * getSymbol.
-     *
-     * @return string
-     */
-    public function getSymbol()
+    public function getSymbol(): string
     {
         return $this->symbol;
     }
 
-    /**
-     * isSymbolFirst.
-     *
-     * @return bool
-     */
-    public function isSymbolFirst()
+    public function isSymbolFirst(): bool
     {
         return $this->symbolFirst;
     }
 
-    /**
-     * getDecimalMark.
-     *
-     * @return string
-     */
-    public function getDecimalMark()
+    public function getDecimalMark(): string
     {
         return $this->decimalMark;
     }
 
-    /**
-     * getThousandsSeparator.
-     *
-     * @return string
-     */
-    public function getThousandsSeparator()
+    public function getThousandsSeparator(): string
     {
         return $this->thousandsSeparator;
     }
 
-    /**
-     * getPrefix.
-     *
-     * @return string
-     */
-    public function getPrefix()
+    public function getPrefix(): string
     {
         if (!$this->symbolFirst) {
             return '';
@@ -442,12 +321,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
         return $this->symbol;
     }
 
-    /**
-     * getSuffix.
-     *
-     * @return string
-     */
-    public function getSuffix()
+    public function getSuffix(): string
     {
         if ($this->symbolFirst) {
             return '';
@@ -456,12 +330,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
         return ' ' . $this->symbol;
     }
 
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [$this->currency => [
             'name'                => $this->name,
@@ -478,44 +347,22 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
         ]];
     }
 
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param int $options
-     *
-     * @return string
-     */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->toArray(), $options);
     }
 
-    /**
-     * jsonSerialize.
-     *
-     * @return array
-     */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
-    /**
-     * Get the evaluated contents of the object.
-     *
-     * @return string
-     */
-    public function render()
+    public function render(): string
     {
         return $this->currency . ' (' . $this->name . ')';
     }
 
-    /**
-     * __toString.
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->render();
     }

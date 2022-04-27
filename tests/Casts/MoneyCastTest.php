@@ -1,13 +1,25 @@
 <?php
 
+namespace Akaunting\Money\Tests\Casts;
+
 use Akaunting\Money\Casts\MoneyCast;
 use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 use PHPUnit\Framework\TestCase;
+use UnexpectedValueException;
 
 class MoneyCastTest extends TestCase
 {
+    public function testItWillNotGetMoneyFromNonString()
+    {
+        $this->expectException(UnexpectedValueException::class);
+
+        $model = $this->getMockBuilder(Model::class)->getMock();
+
+        (new MoneyCast)->get($model, 'money', [], []);
+    }
+
     public function testItWillNotGetMoneyFromNonJson()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -37,6 +49,15 @@ class MoneyCastTest extends TestCase
             new Money('1000', new Currency('USD')),
             $value
         );
+    }
+
+    public function testItWillNotSetNonMoneyAsJson()
+    {
+        $this->expectException(UnexpectedValueException::class);
+
+        $model = $this->getMockBuilder(Model::class)->getMock();
+
+        (new MoneyCast)->set($model, 'money', 1000, []);
     }
 
     public function testItSetsMoneyAsJson()

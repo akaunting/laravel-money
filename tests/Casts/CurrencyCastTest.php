@@ -1,9 +1,12 @@
 <?php
 
+namespace Akaunting\Money\Tests\Casts;
+
 use Akaunting\Money\Casts\CurrencyCast;
 use Akaunting\Money\Currency;
 use Illuminate\Database\Eloquent\Model;
 use PHPUnit\Framework\TestCase;
+use UnexpectedValueException;
 
 class CurrencyCastTest extends TestCase
 {
