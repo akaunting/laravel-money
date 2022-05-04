@@ -217,11 +217,11 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
             throw new OutOfBoundsException('Invalid currency "' . $currency . '"');
         }
 
-        $attributes = $currencies[$currency];
+        $attributes = (array) $currencies[$currency];
         $this->currency = $currency;
         $this->name = (string) $attributes['name'];
         $this->code = (int) $attributes['code'];
-        $this->rate = (float) isset($attributes['rate']) ? $attributes['rate'] : 1;
+        $this->rate = (float) (isset($attributes['rate']) ? $attributes['rate'] : 1);
         $this->precision = (int) $attributes['precision'];
         $this->subunit = (int) $attributes['subunit'];
         $this->symbol = (string) $attributes['symbol'];
@@ -232,7 +232,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
 
     public static function __callStatic(string $method, array $arguments): Currency
     {
-        return new static($method);
+        return new self($method);
     }
 
     /**
@@ -250,11 +250,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
 
     public static function getCurrencies(): array
     {
-        if (! isset(static::$currencies)) {
-            static::$currencies = require __DIR__ . '/../config/money.php';
-        }
-
-        return static::$currencies;
+        return static::$currencies ??= require __DIR__ . '/../config/money.php';
     }
 
     public function equals(Currency $currency): bool
@@ -277,7 +273,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
         return $this->code;
     }
 
-    public function getRate(): int
+    public function getRate(): float
     {
         return $this->rate;
     }

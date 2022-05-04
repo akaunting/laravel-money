@@ -15,9 +15,10 @@ class MoneyCast implements CastsAttributes
             throw new UnexpectedValueException;
         }
 
+        /** @var null|array{amount:mixed, currency:string} $value */
         $value = json_decode($value, true);
 
-        if (! $value || ! isset($value['amount']) || ! isset($value['currency'])) {
+        if (! is_array($value) || ! isset($value['amount']) || ! isset($value['currency'])) {
             throw new UnexpectedValueException;
         }
 
