@@ -31,3 +31,4 @@ tests/          export-ignore
 .gitignore      export-ignore
 .styleci.yml    export-ignore
 phpunit.xml     export-ignore
+psalm.xml       export-ignore

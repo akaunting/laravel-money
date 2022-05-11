@@ -2,8 +2,9 @@
 
 namespace Akaunting\Money\View\Components;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Illuminate\View\View;
 
 class Money extends Component
 {
@@ -15,7 +16,10 @@ class Money extends Component
         //
     }
 
-    public function render(): View
+    /**
+     * @psalm-suppress InvalidReturnType,InvalidReturnStatement
+     */
+    public function render(): View|Factory
     {
         return view('money::components.money');
     }
