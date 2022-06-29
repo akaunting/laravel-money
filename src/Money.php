@@ -562,7 +562,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         );
     }
 
-    public function format(): string
+    public function format(?int $precision = null): string
     {
         $negative = $this->isNegative();
         $value = $this->getValue();
@@ -571,7 +571,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         $decimals = $this->currency->getDecimalMark();
         $prefix = $this->currency->getPrefix();
         $suffix = $this->currency->getSuffix();
-        $value = number_format($amount, $this->currency->getPrecision(), $decimals, $thousands);
+        $value = number_format($amount, $precision ?? $this->currency->getPrecision(), $decimals, $thousands);
 
         return ($negative ? '-' : '') . $prefix . $value . $suffix;
     }
