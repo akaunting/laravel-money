@@ -312,7 +312,40 @@ class MoneyTest extends TestCase
         $this->assertFalse($m6->isPositive());
     }
 
-    public function testWithoutZeroes()
+    /**
+     * @dataProvider providesFormat
+     */
+    public function testFormat($expected, $cur, $amount, $message)
+    {
+        $this->assertEquals($expected, (string) Money::$cur($amount), $message);
+    }
+
+    public function providesFormat()
+    {
+        return [
+            ['₺1.548,48', 'TRY', 154848.25895, 'Example: ' . __LINE__],
+            ['$1,548.48', 'USD', 154848.25895, 'Example: ' . __LINE__],
+        ];
+    }
+
+    public function testFormatSimple()
+    {
+        $m1 = new Money(1, new Currency('USD'));
+        $m2 = new Money(10, new Currency('USD'));
+        $m3 = new Money(100, new Currency('USD'));
+        $m4 = new Money(1000, new Currency('USD'));
+        $m5 = new Money(10000, new Currency('USD'));
+        $m6 = new Money(100000, new Currency('USD'));
+
+        $this->assertEquals('0.01', $m1->formatSimple());
+        $this->assertEquals('0.10', $m2->formatSimple());
+        $this->assertEquals('1.00', $m3->formatSimple());
+        $this->assertEquals('10.00', $m4->formatSimple());
+        $this->assertEquals('100.00', $m5->formatSimple());
+        $this->assertEquals('1,000.00', $m6->formatSimple());
+    }
+
+    public function testFormatWithoutZeroes()
     {
         $m1 = new Money(100, new Currency('USD'), true);
         $m2 = new Money(100.50, new Currency('USD'), true);
@@ -322,6 +355,22 @@ class MoneyTest extends TestCase
 
         $this->assertEquals('$100.50', $m2->format());
         $this->assertEquals('$100.50', $m2->formatWithoutZeroes());
+    }
+
+    /**
+     * @dataProvider providesFormatForHumans
+     */
+    public function testFormatForHumans($expected, $cur, $amount, $locale, $message)
+    {
+        $this->assertEquals($expected, (string) Money::$cur($amount)->formatForHumans($locale), $message);
+    }
+
+    public function providesFormatForHumans()
+    {
+        return [
+            ['€1,5K', 'EUR', 154848.25895, 'nl_NL', 'Example: ' . __LINE__],
+            ['$1.5K', 'USD', 154848.25895, 'en_US', 'Example: ' . __LINE__],
+        ];
     }
 
     /**
@@ -355,44 +404,11 @@ class MoneyTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testFormatSimple()
-    {
-        $m1 = new Money(1, new Currency('USD'));
-        $m2 = new Money(10, new Currency('USD'));
-        $m3 = new Money(100, new Currency('USD'));
-        $m4 = new Money(1000, new Currency('USD'));
-        $m5 = new Money(10000, new Currency('USD'));
-        $m6 = new Money(100000, new Currency('USD'));
-
-        $this->assertEquals('0.01', $m1->formatSimple());
-        $this->assertEquals('0.10', $m2->formatSimple());
-        $this->assertEquals('1.00', $m3->formatSimple());
-        $this->assertEquals('10.00', $m4->formatSimple());
-        $this->assertEquals('100.00', $m5->formatSimple());
-        $this->assertEquals('1,000.00', $m6->formatSimple());
-    }
-
-    /**
-     * @dataProvider providesFormat
-     */
-    public function testFormat($expected, $cur, $amount, $message)
-    {
-        $this->assertEquals($expected, (string) Money::$cur($amount), $message);
-    }
-
     public function testMakingMutable()
     {
         $money = Money::USD(1000)->immutable();
 
         $this->assertTrue($money->isImmutable());
         $this->assertFalse($money->mutable()->isImmutable());
-    }
-
-    public function providesFormat()
-    {
-        return [
-            ['₺1.548,48', 'TRY', 154848.25895, 'Example: ' . __LINE__],
-            ['$1,548.48', 'USD', 154848.25895, 'Example: ' . __LINE__],
-        ];
     }
 }

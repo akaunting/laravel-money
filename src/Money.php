@@ -297,7 +297,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
     public static function getLocale(): string
     {
-        if (!isset(static::$locale)) {
+        if (! isset(static::$locale)) {
             static::$locale = 'en_GB';
         }
 
@@ -306,7 +306,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
     public static function setLocale(?string $locale): void
     {
-        static::$locale = $locale;
+        static::$locale = str_replace('-', '_', $locale);
     }
 
     /**
@@ -530,38 +530,6 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this->amount < 0;
     }
 
-    /**
-     * formatLocale.
-     *
-     * @throws BadFunctionCallException
-     */
-    public function formatLocale(?string $locale = null, ?Closure $callback = null): string
-    {
-        // @codeCoverageIgnoreStart
-        if (!class_exists('\NumberFormatter')) {
-            throw new BadFunctionCallException('Class NumberFormatter not exists. Require ext-intl extension.');
-        }
-        // @codeCoverageIgnoreEnd
-
-        $formatter = new \NumberFormatter($locale ?: static::getLocale(), \NumberFormatter::CURRENCY);
-
-        if (is_callable($callback)) {
-            $callback($formatter);
-        }
-
-        return $formatter->formatCurrency($this->getValue(), $this->currency->getCurrency());
-    }
-
-    public function formatSimple(): string
-    {
-        return number_format(
-            $this->getValue(),
-            $this->currency->getPrecision(),
-            $this->currency->getDecimalMark(),
-            $this->currency->getThousandsSeparator()
-        );
-    }
-
     public function format(): string
     {
         $negative = $this->isNegative();
@@ -574,6 +542,16 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         $value = number_format($amount, $this->currency->getPrecision(), $decimals, $thousands);
 
         return ($negative ? '-' : '') . $prefix . $value . $suffix;
+    }
+
+    public function formatSimple(): string
+    {
+        return number_format(
+            $this->getValue(),
+            $this->currency->getPrecision(),
+            $this->currency->getDecimalMark(),
+            $this->currency->getThousandsSeparator()
+        );
     }
 
     public function formatWithoutZeroes(): string
@@ -592,6 +570,56 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         $value = number_format($amount, 0, $decimals, $thousands);
 
         return ($negative ? '-' : '') . $prefix . $value . $suffix;
+    }
+
+    /**
+     * formatForHumans.
+     *
+     * @throws BadFunctionCallException
+     */
+    public function formatForHumans(?string $locale = null, ?Closure $callback = null): string
+    {
+        // @codeCoverageIgnoreStart
+        if (! class_exists('\NumberFormatter')) {
+            throw new BadFunctionCallException('Class NumberFormatter not exists. Require ext-intl extension.');
+        }
+        // @codeCoverageIgnoreEnd
+
+        $negative = $this->isNegative();
+        $value = $this->getValue();
+        $amount = $negative ? -$value : $value;
+        $prefix = $this->currency->getPrefix();
+        $suffix = $this->currency->getSuffix();
+
+        $formatter = new \NumberFormatter($locale ?: static::getLocale(), \NumberFormatter::PADDING_POSITION);
+
+        if (is_callable($callback)) {
+            $callback($formatter);
+        }
+
+        return ($negative ? '-' : '') . $prefix . $formatter->format($amount) . $suffix;
+    }
+
+    /**
+     * formatLocale.
+     *
+     * @throws BadFunctionCallException
+     */
+    public function formatLocale(?string $locale = null, ?Closure $callback = null): string
+    {
+        // @codeCoverageIgnoreStart
+        if (! class_exists('\NumberFormatter')) {
+            throw new BadFunctionCallException('Class NumberFormatter not exists. Require ext-intl extension.');
+        }
+        // @codeCoverageIgnoreEnd
+
+        $formatter = new \NumberFormatter($locale ?: static::getLocale(), \NumberFormatter::CURRENCY);
+
+        if (is_callable($callback)) {
+            $callback($formatter);
+        }
+
+        return $formatter->formatCurrency($this->getValue(), $this->currency->getCurrency());
     }
 
     public function toArray(): array
