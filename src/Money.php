@@ -199,7 +199,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
     protected bool $mutable = false;
 
-    protected static ?string $locale;
+    protected static string $locale;
 
     /**
      * Create a new instance.
@@ -306,7 +306,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
     public static function setLocale(?string $locale): void
     {
-        static::$locale = str_replace('-', '_', $locale);
+        static::$locale = str_replace('-', '_', (string) $locale);
     }
 
     /**
