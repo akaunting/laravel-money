@@ -297,7 +297,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
     public static function getLocale(): string
     {
-        if (! isset(static::$locale)) {
+        if (empty(static::$locale)) {
             static::$locale = 'en_GB';
         }
 

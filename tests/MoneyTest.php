@@ -59,7 +59,7 @@ class MoneyTest extends TestCase
 
     public function testLocale()
     {
-        Money::setLocale(null);
+        Money::setLocale('');
         $this->assertEquals('en_GB', Money::getLocale());
         Money::setLocale('en_US');
         $this->assertEquals('en_US', Money::getLocale());
