@@ -368,8 +368,8 @@ class MoneyTest extends TestCase
     public function providesFormatForHumans()
     {
         return [
-            ['€1,5K', 'EUR', 154848.25895, 'nl_NL', 'Example: ' . __LINE__],
-            ['$1.5K', 'USD', 154848.25895, 'en_US', 'Example: ' . __LINE__],
+            ['€1,55K', 'EUR', 154848.25895, 'nl_NL', 'Example: ' . __LINE__],
+            ['$1.55K', 'USD', 154848.25895, 'en_US', 'Example: ' . __LINE__],
         ];
     }
 

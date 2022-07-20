@@ -593,6 +593,10 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
         $formatter = new \NumberFormatter($locale ?: static::getLocale(), \NumberFormatter::PADDING_POSITION);
 
+        $formatter->setSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $this->currency->getDecimalMark());
+        $formatter->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, $this->currency->getThousandsSeparator());
+        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $this->currency->getPrecision());
+
         if (is_callable($callback)) {
             $callback($formatter);
         }
@@ -614,6 +618,10 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         // @codeCoverageIgnoreEnd
 
         $formatter = new \NumberFormatter($locale ?: static::getLocale(), \NumberFormatter::CURRENCY);
+
+        $formatter->setSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $this->currency->getDecimalMark());
+        $formatter->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, $this->currency->getThousandsSeparator());
+        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $this->currency->getPrecision());
 
         if (is_callable($callback)) {
             $callback($formatter);
