@@ -9,11 +9,12 @@ class CurrencyRule implements Rule
 {
     public function passes($attribute, $value): bool
     {
-        return key_exists(strtoupper($value), Currency::getCurrencies());
+        return is_string($value) && key_exists(strtoupper($value), Currency::getCurrencies());
     }
 
     public function message()
     {
+        /** @var string */
         return __('money.invalid-currency');
     }
 }
