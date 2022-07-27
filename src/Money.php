@@ -3,6 +3,7 @@
 namespace Akaunting\Money;
 
 use Akaunting\Money\Casts\MoneyCast;
+use Akaunting\Money\Exceptions\UnexpectedAmountException;
 use BadFunctionCallException;
 use Closure;
 use Illuminate\Contracts\Database\Eloquent\Castable;
@@ -13,7 +14,6 @@ use Illuminate\Contracts\Support\Renderable;
 use InvalidArgumentException;
 use JsonSerializable;
 use OutOfBoundsException;
-use UnexpectedValueException;
 
 /**
  * Class Money.
@@ -204,7 +204,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
     /**
      * Create a new instance.
      *
-     * @throws UnexpectedValueException
+     * @throws UnexpectedAmountException
      */
     public function __construct(mixed $amount, Currency $currency, bool $convert = false)
     {
@@ -215,7 +215,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
     /**
      * parseAmount.
      *
-     * @throws UnexpectedValueException
+     * @throws UnexpectedAmountException
      */
     protected function parseAmount(mixed $amount, bool $convert = false): int|float
     {
@@ -234,7 +234,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
             return $this->convertAmount($amount->getAmount(), $convert);
         }
 
-        throw new UnexpectedValueException('Invalid amount "' . $amount . '"');
+        throw new UnexpectedAmountException('Invalid amount "' . $amount . '"');
     }
 
     protected function parseAmountFromCallable(mixed $amount): mixed
