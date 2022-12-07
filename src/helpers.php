@@ -8,7 +8,7 @@ if (!function_exists('money')) {
     {
         if (is_null($currency)) {
             /** @var string $currency */
-            $currency = env('DEFAULT_CURRENCY', 'USD');
+            $currency = config('money.defaults.currency');
         }
 
         return new Money($amount, currency($currency), $convert);
