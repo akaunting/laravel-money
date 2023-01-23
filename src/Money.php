@@ -186,8 +186,8 @@ use OutOfBoundsException;
  */
 class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
-	use Macroable;
-	
+    use Macroable;
+    
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;

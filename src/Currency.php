@@ -182,8 +182,8 @@ use OutOfBoundsException;
  */
 class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
-	use Macroable;
-	
+    use Macroable;
+    
     protected string $currency;
 
     protected string $name;
