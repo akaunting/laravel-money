@@ -232,7 +232,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
 
     public static function __callStatic(string $method, array $arguments): Currency
     {
-        return new self($method);
+        return new static($method);
     }
 
     /**
