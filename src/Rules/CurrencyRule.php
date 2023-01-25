@@ -15,6 +15,6 @@ class CurrencyRule implements Rule
     public function message()
     {
         /** @var string */
-        return __('money.invalid-currency');
+        return trans('money.invalid-currency');
     }
 }
