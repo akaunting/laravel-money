@@ -53,6 +53,7 @@
      "test": "vendor/bin/phpunit",
      "psalm": "vendor/bin/psalm"
    },
+    "minimum-stability": "dev",
    "config": {
       "allow-plugins": {
          "composer/package-versions-deprecated": true
