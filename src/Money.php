@@ -209,7 +209,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
      *
      * @throws UnexpectedAmountException
      */
-    public function __construct(mixed $amount, Currency $currency, bool $convert = false)
+    final public function __construct(mixed $amount, Currency $currency, bool $convert = false)
     {
         $this->currency = $currency;
         $this->amount = $this->parseAmount($amount, $convert);
@@ -281,11 +281,11 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $amount * $this->currency->getSubunit();
     }
 
-    public static function __callStatic(string $method, array $arguments): Money
+    public static function __callStatic(string $method, array $arguments): static
     {
         $convert = isset($arguments[1]) && is_bool($arguments[1]) && $arguments[1];
 
-        return new self($arguments[0], new Currency($method), $convert);
+        return new static($arguments[0], new Currency($method), $convert);
     }
 
     /**
@@ -415,14 +415,14 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this->compare($other) <= 0;
     }
 
-    public function convert(Currency $currency, int|float $ratio, int $roundingMode = self::ROUND_HALF_UP): Money
+    public function convert(Currency $currency, int|float $ratio, int $roundingMode = self::ROUND_HALF_UP): static
     {
         $this->currency = $currency;
 
         return $this->multiply($ratio, $roundingMode);
     }
 
-    public function add(int|float|Money $addend, int $roundingMode = self::ROUND_HALF_UP): Money
+    public function add(int|float|Money $addend, int $roundingMode = self::ROUND_HALF_UP): static
     {
         if ($addend instanceof Money) {
             $this->assertSameCurrency($addend);
@@ -433,7 +433,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         $amount = $this->round($this->amount + $addend, $roundingMode);
 
         if ($this->isImmutable()) {
-            return new self($amount, $this->currency);
+            return new static($amount, $this->currency);
         }
 
         $this->amount = $amount;
@@ -441,7 +441,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this;
     }
 
-    public function subtract(int|float|Money $subtrahend, int $roundingMode = self::ROUND_HALF_UP): Money
+    public function subtract(int|float|Money $subtrahend, int $roundingMode = self::ROUND_HALF_UP): static
     {
         if ($subtrahend instanceof Money) {
             $this->assertSameCurrency($subtrahend);
@@ -452,7 +452,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         $amount = $this->round($this->amount - $subtrahend, $roundingMode);
 
         if ($this->isImmutable()) {
-            return new self($amount, $this->currency);
+            return new static($amount, $this->currency);
         }
 
         $this->amount = $amount;
@@ -460,12 +460,12 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this;
     }
 
-    public function multiply(int|float $multiplier, int $roundingMode = self::ROUND_HALF_UP): Money
+    public function multiply(int|float $multiplier, int $roundingMode = self::ROUND_HALF_UP): static
     {
         $amount = $this->round($this->amount * $multiplier, $roundingMode);
 
         if ($this->isImmutable()) {
-            return new self($amount, $this->currency);
+            return new static($amount, $this->currency);
         }
 
         $this->amount = $amount;
@@ -473,14 +473,14 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this;
     }
 
-    public function divide(int|float $divisor, int $roundingMode = self::ROUND_HALF_UP): Money
+    public function divide(int|float $divisor, int $roundingMode = self::ROUND_HALF_UP): static
     {
         $this->assertDivisor($divisor);
 
         $amount = $this->round($this->amount / $divisor, $roundingMode);
 
         if ($this->isImmutable()) {
-            return new self($amount, $this->currency);
+            return new static($amount, $this->currency);
         }
 
         $this->amount = $amount;
@@ -506,7 +506,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
         foreach ($ratios as $ratio) {
             $share = floor($this->amount * $ratio / $total);
-            $results[] = new self($share, $this->currency);
+            $results[] = new static($share, $this->currency);
             $remainder -= $share;
         }
 
@@ -657,14 +657,14 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this->format();
     }
 
-    public function immutable(): Money
+    public function immutable(): static
     {
         $this->mutable = false;
 
-        return new self($this->amount, $this->currency);
+        return new static($this->amount, $this->currency);
     }
 
-    public function mutable(): Money
+    public function mutable(): static
     {
         $this->mutable = true;
 
