@@ -211,7 +211,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
      *
      * @throws OutOfBoundsException
      */
-    final public function __construct(string $currency)
+    public function __construct(string $currency)
     {
         $currency = strtoupper(trim($currency));
         $currencies = static::getCurrencies();
@@ -235,7 +235,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
 
     public static function __callStatic(string $method, array $arguments): Currency
     {
-        return new static($method);
+        return new self($method);
     }
 
     /**
