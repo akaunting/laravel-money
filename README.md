@@ -1,7 +1,7 @@
 # Currency formatting and conversion package for Laravel
 
 ![Downloads](https://img.shields.io/packagist/dt/akaunting/laravel-money)
-![Tests](https://img.shields.io/github/workflow/status/akaunting/laravel-money/Tests?label=tests)
+![Tests](https://img.shields.io/github/actions/workflow/status/akaunting/laravel-money/tests.yml?label=tests)
 [![StyleCI](https://github.styleci.io/repos/112121508/shield?style=flat&branch=master)](https://styleci.io/repos/112121508)
 [![License](https://img.shields.io/github/license/akaunting/laravel-money)](LICENSE.md)
 
