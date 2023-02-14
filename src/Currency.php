@@ -8,6 +8,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Traits\Macroable;
 use JsonSerializable;
 use OutOfBoundsException;
 
@@ -181,6 +182,8 @@ use OutOfBoundsException;
  */
 class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
+    use Macroable;
+    
     protected string $currency;
 
     protected string $name;
