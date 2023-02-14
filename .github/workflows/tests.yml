@@ -22,7 +22,7 @@ jobs:
             testbench: 8.*
         exclude:
           - laravel: 10.*
-          - php: 8.0
+            php: 8.0
 
     steps:
       - name: Checkout code
