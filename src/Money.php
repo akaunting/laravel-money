@@ -187,7 +187,7 @@ use OutOfBoundsException;
 class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
     use Macroable;
-    
+
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
@@ -488,6 +488,9 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this;
     }
 
+    /**
+     * @psalm-suppress ArgumentTypeCoercion
+     */
     public function round(int|float $amount, int $mode = self::ROUND_HALF_UP): float
     {
         $this->assertRoundingMode($mode);
