@@ -22,7 +22,10 @@ class Provider extends ServiceProvider
         ], 'money');
 
         Money::setLocale($this->app->make('translator')->getLocale());
+
+        /** @var array */
         $currencies = $this->app->make('config')->get('money');
+
         Currency::setCurrencies($currencies ?? []);
 
         $this->registerBladeDirectives();
