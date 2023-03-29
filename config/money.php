@@ -504,8 +504,8 @@ return [
         'subunit'             => 100,
         'symbol'              => '€',
         'symbol_first'        => true,
-        'decimal_mark'        => ',',
-        'thousands_separator' => '.',
+        'decimal_mark'        => '.',
+        'thousands_separator' => ',',
     ],
 
     'FJD' => [
