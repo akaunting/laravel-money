@@ -650,7 +650,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return json_encode($this->toArray(), $options);
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
