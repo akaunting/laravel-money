@@ -183,7 +183,7 @@ use OutOfBoundsException;
 class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
     use Macroable;
-    
+
     protected string $currency;
 
     protected string $name;
@@ -253,7 +253,9 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
 
     public static function getCurrencies(): array
     {
-        return static::$currencies ??= require __DIR__ . '/../config/money.php';
+        $config = require __DIR__ . '/../config/money.php';
+
+        return static::$currencies ??= $config['currencies'];
     }
 
     public function equals(Currency $currency): bool
