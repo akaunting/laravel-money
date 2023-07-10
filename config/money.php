@@ -2,6 +2,12 @@
 
 return [
 
+    'defaults' => [
+
+        'currency' => env('MONEY_DEFAULTS_CURRENCY', 'USD'),
+
+    ],
+
     'currencies' => [
 
         'AED' => [
