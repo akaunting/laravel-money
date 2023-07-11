@@ -11,7 +11,7 @@ class Money extends Component
     public function __construct(
         public mixed $amount,
         public ?string $currency = null,
-        public bool $convert = false
+        public ?bool $convert = null
     ) {
         //
     }
