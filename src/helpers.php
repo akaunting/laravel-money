@@ -21,8 +21,13 @@ if (! function_exists('money')) {
 }
 
 if (! function_exists('currency')) {
-    function currency(string $currency): Currency
+    function currency(string $currency = null): Currency
     {
+        if (is_null($currency)) {
+            /** @var string $currency */
+            $currency = config('money.defaults.currency');
+        }
+
         return new Currency($currency);
     }
 }
