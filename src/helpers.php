@@ -3,7 +3,7 @@
 use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
 
-if (!function_exists('money')) {
+if (! function_exists('money')) {
     function money(mixed $amount, string $currency = null, bool $convert = false): Money
     {
         if (is_null($currency)) {
@@ -15,7 +15,7 @@ if (!function_exists('money')) {
     }
 }
 
-if (!function_exists('currency')) {
+if (! function_exists('currency')) {
     function currency(string $currency): Currency
     {
         return new Currency($currency);
