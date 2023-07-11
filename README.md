@@ -74,6 +74,7 @@ $m1->format();
 ### Helpers
 
 ```php
+money(500)
 money(500, 'USD')
 currency('USD')
 ```
@@ -81,6 +82,7 @@ currency('USD')
 ### Blade Directives
 
 ```php
+@money(500)
 @money(500, 'USD')
 @currency('USD')
 ```
@@ -90,6 +92,8 @@ currency('USD')
 Same as the directive, there is also a `blade` component for you to create money and currency in your views:
 
 ```html
+<x-money amount="500" />
+or
 <x-money amount="500" currency="USD" />
 or
 <x-money amount="500" currency="USD" convert />
