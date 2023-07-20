@@ -88,4 +88,11 @@ class CurrencyTest extends TestCase
         $this->assertEmpty(Currency::getCurrencies());
         Currency::setCurrencies($currencies);
     }
+
+    public function testStaticMacro()
+    {
+        Currency::macro('testMacro', fn () => Currency::EUR());
+
+        $this->assertEquals(Currency::EUR(), Currency::testMacro());
+    }
 }

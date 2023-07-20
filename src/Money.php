@@ -186,7 +186,9 @@ use OutOfBoundsException;
  */
 class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
-    use Macroable;
+    use Macroable {
+        __callStatic as protected macroableCallStatic;
+    }
 
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
@@ -283,6 +285,10 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
     public static function __callStatic(string $method, array $arguments): Money
     {
+        if (static::hasMacro($method)) {
+            return static::macroableCallStatic($method, $arguments);
+        }
+
         $convert = isset($arguments[1]) && is_bool($arguments[1]) && $arguments[1];
 
         return new self($arguments[0], new Currency($method), $convert);

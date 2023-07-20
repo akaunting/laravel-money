@@ -182,7 +182,9 @@ use OutOfBoundsException;
  */
 class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
-    use Macroable;
+    use Macroable {
+        __callStatic as protected macroableCallStatic;
+    }
 
     protected string $currency;
 
@@ -235,6 +237,10 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
 
     public static function __callStatic(string $method, array $arguments): Currency
     {
+        if (static::hasMacro($method)) {
+            return static::macroableCallStatic($method, $arguments);
+        }
+
         return new self($method);
     }
 
