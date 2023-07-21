@@ -101,6 +101,76 @@ or
 <x-currency currency="USD" />
 ```
 
+### Macros
+
+This package implements the Laravel `Macroable` trait, allowing macros and mixins on both `Money` and `Currency`.
+
+Example use case:
+
+```php
+use Akaunting\Money\Currency;
+use Akaunting\Money\Money;
+
+Money::macro(
+    'absolute',
+    fn () => $this->isPositive() ? $this : $this->multiply(-1)
+);
+
+$money = Money::USD(1000)->multiply(-1);
+
+$absolute = $money->absolute();
+```
+
+Macros can be called statically too:
+
+```php
+use Akaunting\Money\Currency;
+use Akaunting\Money\Money;
+
+Money::macro('zero', fn (?string $currency = null) => new Money(0, new Currency($currency ?? 'GBP')));
+
+$money = Money::zero();
+```
+
+### Mixins
+
+Along with Macros, Mixins are also supported. This allows merging another classes methods into the Money or Currency class.
+
+Define the mixin class:
+
+```php
+use Akaunting\Money\Money;
+
+class CustomMoney 
+{
+    public function absolute(): Money
+    {
+        return $this->isPositive() ? $this : $this->multiply(-1);
+    }
+    
+    public static function zero(?string $currency = null): Money
+    {
+        return new Money(0, new Currency($currency ?? 'GBP'));
+    }
+}
+```
+
+Register the mixin, by passing an instance of the class:
+
+```php
+Money::mixin(new CustomMoney);
+```
+
+The methods from the custom class will be available:
+
+```php
+$money = Money::USD(1000)->multiply(-1);
+$absolute = $money->absolute();
+
+// Static methods via mixins are supported too:
+$money = Money::zero();
+```
+
 ## Changelog
 
 Please see [Releases](../../releases) for more information on what has changed recently.

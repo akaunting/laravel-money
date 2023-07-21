@@ -411,4 +411,11 @@ class MoneyTest extends TestCase
         $this->assertTrue($money->isImmutable());
         $this->assertFalse($money->mutable()->isImmutable());
     }
+
+    public function testStaticMacro()
+    {
+        Money::macro('testMacro', fn () => Money::USD(1099));
+
+        $this->assertEquals(Money::USD(1099), Money::testMacro());
+    }
 }
