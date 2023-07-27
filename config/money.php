@@ -556,7 +556,7 @@ return [
             'code'                => 981,
             'precision'           => 2,
             'subunit'             => 100,
-            'symbol'              => 'ლ',
+            'symbol'              => '₾',
             'symbol_first'        => false,
             'decimal_mark'        => '.',
             'thousands_separator' => ',',
