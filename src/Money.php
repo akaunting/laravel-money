@@ -283,6 +283,9 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $amount * $this->currency->getSubunit();
     }
 
+    /**
+     * @psalm-suppress MixedInferredReturnType,MixedReturnStatement
+     */
     public static function __callStatic(string $method, array $arguments): Money
     {
         if (static::hasMacro($method)) {

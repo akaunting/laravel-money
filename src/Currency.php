@@ -235,6 +235,9 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
         $this->thousandsSeparator = (string) $attributes['thousands_separator'];
     }
 
+    /**
+     * @psalm-suppress MixedInferredReturnType,MixedReturnStatement
+     */
     public static function __callStatic(string $method, array $arguments): Currency
     {
         if (static::hasMacro($method)) {
