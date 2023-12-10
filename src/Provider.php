@@ -34,7 +34,7 @@ class Provider extends ServiceProvider
 
     public function registerBladeDirectives(): void
     {
-        $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
+        $this->callAfterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
             $bladeCompiler->directive('money', function (?string $expression) {
                 return "<?php echo money($expression); ?>";
             });
