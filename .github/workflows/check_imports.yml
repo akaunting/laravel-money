@@ -27,7 +27,7 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress && composer require imanghafoori/laravel-microscope --dev
+      run: composer install --prefer-dist --no-progress && composer require imanghafoori/php-imports-analyzer --dev
 
     - name: Check Imports
       run: ./vendor/bin/check_imports
