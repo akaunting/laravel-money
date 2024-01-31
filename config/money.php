@@ -730,7 +730,7 @@ return [
         'IRR' => [
             'name'                => 'Iranian Rial',
             'code'                => 364,
-            'precision'           => 2,
+            'precision'           => 0,
             'subunit'             => 100,
             'symbol'              => '﷼',
             'symbol_first'        => true,
