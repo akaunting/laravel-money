@@ -214,7 +214,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
     public function __construct(mixed $amount, Currency $currency, bool $convert = false)
     {
         $this->currency = $currency;
-        $this->amount = $this->parseAmount($amount, $convert);
+        $this->amount = $this->parseAmount($amount, $convert) * $currency->getRate();
     }
 
     /**
