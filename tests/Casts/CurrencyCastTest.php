@@ -10,38 +10,38 @@ use UnexpectedValueException;
 
 class CurrencyCastTest extends TestCase
 {
+    protected Model $model;
+    protected function setUp():void
+    {
+        $this->model = $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+    }
     public function testItWillNotGetCurrencyFromNonStrings()
     {
         $this->expectException(UnexpectedValueException::class);
 
-        $model = $this->getMockBuilder(Model::class)->getMock();
-
-        (new CurrencyCast)->get($model, 'currency', 1, []);
+        (new CurrencyCast)->get($this->model, 'currency', 1, []);
     }
 
     public function testItWillNotSetCurrencyFromNonCurrencies()
     {
         $this->expectException(UnexpectedValueException::class);
 
-        $model = $this->getMockBuilder(Model::class)->getMock();
 
-        (new CurrencyCast)->set($model, 'currency', 'USD', []);
+        (new CurrencyCast)->set($this->model, 'currency', 'USD', []);
     }
 
     public function testItGetsCurrencyFromString()
     {
-        $model = $this->getMockBuilder(Model::class)->getMock();
 
-        $value = (new CurrencyCast)->get($model, 'currency', 'USD', []);
+        $value = (new CurrencyCast)->get($this->model, 'currency', 'USD', []);
 
         $this->assertEquals(Currency::USD(), $value);
     }
 
     public function testItSetsCurrencyAsString()
     {
-        $mock = $this->getMockBuilder(Model::class)->getMock();
 
-        $value = (new CurrencyCast)->set($mock, 'currency', Currency::USD(), []);
+        $value = (new CurrencyCast)->set($this->model, 'currency', Currency::USD(), []);
 
         $this->assertSame('USD', $value);
     }
