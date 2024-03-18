@@ -39,7 +39,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: bcmath, ctype, dom, fileinfo, intl, gd, json, mbstring, pdo, pdo_sqlite, openssl, sqlite, xml, zip
-          coverage: none
+          coverage: xdebug
 
       - name: Install dependencies
         run: |
