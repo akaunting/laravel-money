@@ -3,20 +3,18 @@
 namespace Akaunting\Money\Rules;
 
 use Akaunting\Money\Currency;
-use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Rule;
 
-class CurrencyRule implements ValidationRule
+class CurrencyRule implements Rule
 {
-    public function validate(string $attribute, mixed $value, Closure $fail): void
+    public function passes($attribute, $value): bool
     {
-        if (! $this->passes($value)) {
-            $fail('money.invalid-currency')->translate();
-        }
+        return is_string($value) && key_exists(strtoupper($value), Currency::getCurrencies());
     }
 
-    protected function passes(mixed $value): bool
+    public function message()
     {
-        return is_string($value) && array_key_exists(strtoupper($value), Currency::getCurrencies());
+        /** @var string */
+        return trans('money.invalid-currency');
     }
 }
