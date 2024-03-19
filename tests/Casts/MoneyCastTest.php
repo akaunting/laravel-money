@@ -12,15 +12,15 @@ use UnexpectedValueException;
 class MoneyCastTest extends TestCase
 {
     protected Model $model;
-    protected function setUp():void
+
+    protected function setUp(): void
     {
-        $this->model = $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $this->model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
     }
 
     public function testItWillNotGetMoneyFromNonString()
     {
         $this->expectException(UnexpectedValueException::class);
-
 
         (new MoneyCast)->get($this->model, 'money', [], []);
     }
@@ -29,14 +29,12 @@ class MoneyCastTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
 
-
         (new MoneyCast)->get($this->model, 'money', 'testing', []);
     }
 
     public function testItWillNotGetMoneyFromIllFormedJson()
     {
         $this->expectException(UnexpectedValueException::class);
-
 
         (new MoneyCast)->get($this->model, 'money', '{"key":"value"}', []);
     }
@@ -56,7 +54,6 @@ class MoneyCastTest extends TestCase
     public function testItWillNotSetNonMoneyAsJson()
     {
         $this->expectException(UnexpectedValueException::class);
-
 
         (new MoneyCast)->set($this->model, 'money', 1000, []);
     }

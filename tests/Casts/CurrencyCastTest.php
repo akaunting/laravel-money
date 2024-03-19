@@ -11,10 +11,12 @@ use UnexpectedValueException;
 class CurrencyCastTest extends TestCase
 {
     protected Model $model;
-    protected function setUp():void
+
+    protected function setUp(): void
     {
-        $this->model = $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $this->model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
     }
+
     public function testItWillNotGetCurrencyFromNonStrings()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -26,13 +28,11 @@ class CurrencyCastTest extends TestCase
     {
         $this->expectException(UnexpectedValueException::class);
 
-
         (new CurrencyCast)->set($this->model, 'currency', 'USD', []);
     }
 
     public function testItGetsCurrencyFromString()
     {
-
         $value = (new CurrencyCast)->get($this->model, 'currency', 'USD', []);
 
         $this->assertEquals(Currency::USD(), $value);
@@ -40,7 +40,6 @@ class CurrencyCastTest extends TestCase
 
     public function testItSetsCurrencyAsString()
     {
-
         $value = (new CurrencyCast)->set($this->model, 'currency', Currency::USD(), []);
 
         $this->assertSame('USD', $value);
