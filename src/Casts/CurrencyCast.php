@@ -6,6 +6,10 @@ use Akaunting\Money\Currency;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use UnexpectedValueException;
 
+/**
+ * @template TGet
+ * @template TSet
+ */
 class CurrencyCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes): Currency

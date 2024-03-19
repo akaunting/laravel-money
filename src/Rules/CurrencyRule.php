@@ -15,7 +15,7 @@ class CurrencyRule implements ValidationRule
         }
     }
 
-    protected function passes($value): bool
+    protected function passes(mixed $value): bool
     {
         return is_string($value) && array_key_exists(strtoupper($value), Currency::getCurrencies());
     }
