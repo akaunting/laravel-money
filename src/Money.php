@@ -228,15 +228,15 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         $amount = $this->parseAmountFromString($this->parseAmountFromCallable($amount));
 
         if (is_int($amount)) {
-            return (int) $this->convertAmount($amount, $convert);
+            return (int) $this->convertAmount($amount * $this->currency->getRate(), $convert);
         }
 
         if (is_float($amount)) {
-            return $this->round($this->convertAmount($amount, $convert));
+            return $this->round($this->convertAmount($amount * $this->currency->getRate(), $convert));
         }
 
         if ($amount instanceof static) {
-            return $this->convertAmount($amount->getAmount(), $convert);
+            return $this->convertAmount($amount->getAmount() * $this->currency->getRate(), $convert);
         }
 
         throw new UnexpectedAmountException('Invalid amount "' . $amount . '"');
