@@ -5,6 +5,9 @@ namespace Akaunting\Money\Rules;
 use Akaunting\Money\Currency;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * @psalm-suppress DeprecatedInterface
+ */
 class CurrencyRule implements Rule
 {
     public function passes($attribute, $value): bool
