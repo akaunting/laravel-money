@@ -8,8 +8,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use UnexpectedValueException;
 
 /**
- * @template TGet
- * @template TSet
+ * @template-implements CastsAttributes<Money,Money>
  */
 class MoneyCast implements CastsAttributes
 {

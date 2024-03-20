@@ -11,6 +11,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
 use JsonSerializable;
@@ -183,6 +184,7 @@ use OutOfBoundsException;
  * @method static Money ZAR(mixed $amount, bool $convert = false)
  * @method static Money ZMW(mixed $amount, bool $convert = false)
  * @method static Money ZWL(mixed $amount, bool $convert = false)
+ * @template-implements Arrayable<string,int|float|Currency>
  */
 class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
@@ -606,7 +608,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         $prefix = $this->currency->getPrefix();
         $suffix = $this->currency->getSuffix();
 
-        $formatter = new \NumberFormatter($locale ?: static::getLocale(), \NumberFormatter::PADDING_POSITION);
+        $formatter = new \NumberFormatter(is_null($locale) ? static::getLocale():$locale, \NumberFormatter::PADDING_POSITION);
 
         $formatter->setSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $this->currency->getDecimalMark());
         $formatter->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, $this->currency->getThousandsSeparator());
@@ -632,7 +634,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         }
         // @codeCoverageIgnoreEnd
 
-        $formatter = new \NumberFormatter($locale ?: static::getLocale(), \NumberFormatter::CURRENCY);
+        $formatter = new \NumberFormatter(is_null($locale) ? static::getLocale():$locale, \NumberFormatter::CURRENCY);
 
         $formatter->setSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $this->currency->getDecimalMark());
         $formatter->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, $this->currency->getThousandsSeparator());
