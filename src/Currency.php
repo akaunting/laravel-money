@@ -179,6 +179,7 @@ use OutOfBoundsException;
  * @method static Currency ZAR()
  * @method static Currency ZMW()
  * @method static Currency ZWL()
+ * @template-implements Arrayable<string,array>
  */
 class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Renderable
 {
