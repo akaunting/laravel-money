@@ -608,7 +608,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         $prefix = $this->currency->getPrefix();
         $suffix = $this->currency->getSuffix();
 
-        $formatter = new \NumberFormatter(is_null($locale) ? static::getLocale():$locale, \NumberFormatter::PADDING_POSITION);
+        $formatter = new \NumberFormatter(is_null($locale) ? static::getLocale() : $locale, \NumberFormatter::PADDING_POSITION);
 
         $formatter->setSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $this->currency->getDecimalMark());
         $formatter->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, $this->currency->getThousandsSeparator());
@@ -634,7 +634,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         }
         // @codeCoverageIgnoreEnd
 
-        $formatter = new \NumberFormatter(is_null($locale) ? static::getLocale():$locale, \NumberFormatter::CURRENCY);
+        $formatter = new \NumberFormatter(is_null($locale) ? static::getLocale() : $locale, \NumberFormatter::CURRENCY);
 
         $formatter->setSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL, $this->currency->getDecimalMark());
         $formatter->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, $this->currency->getThousandsSeparator());
