@@ -19,4 +19,10 @@ class HelpersTest extends TestCase
         $this->assertEquals(new Currency('USD'), currency('USD'));
         $this->assertEquals(new Currency('TRY'), currency('TRY'));
     }
+
+    public function testCurrencyAcceptsCurrencyObject()
+    {
+        $this->assertEquals(new Currency('USD'), currency(new Currency('USD')));
+        $this->assertEquals(new Currency('TRY'), currency(new Currency('TRY')));
+    }
 }
