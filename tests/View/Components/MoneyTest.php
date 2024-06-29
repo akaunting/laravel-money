@@ -20,17 +20,6 @@ class MoneyTest extends TestCase
 
     public function testRenderingWithCurrencyObject()
     {
-        $this->component(Money::class, [
-            'amount' => 1000,
-            'currency' => Currency::GBP(),
-        ])->assertSee('£10.00');
-
-        $this->component(Money::class, [
-            'amount' => 1000,
-            'currency' => Currency::GBP(),
-            'convert' => true,
-        ])->assertSee('£1,000.00');
-
         $this->blade('<x-money amount="1000" :currency="\Akaunting\Money\Currency::GBP()" />')->assertSee('£10.00');
         $this->blade('<x-money amount="1000" :currency="\Akaunting\Money\Currency::GBP()" convert />')->assertSee('£1,000.00');
     }
