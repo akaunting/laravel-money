@@ -30,5 +30,8 @@ class MoneyTest extends TestCase
             'currency' => Currency::GBP(),
             'convert' => true,
         ])->assertSee('£1,000.00');
+
+        $this->blade('<x-money amount="1000" :currency="\Akaunting\Money\Currency::GBP()" />')->assertSee('£10.00');
+        $this->blade('<x-money amount="1000" :currency="\Akaunting\Money\Currency::GBP()" convert />')->assertSee('£1,000.00');
     }
 }
