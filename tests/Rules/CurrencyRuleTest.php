@@ -5,7 +5,6 @@ namespace Akaunting\Money\Tests\Rules;
 use Akaunting\Money\Currency;
 use Akaunting\Money\Rules\CurrencyRule;
 use Akaunting\Money\Tests\TestCase;
-use Illuminate\Support\Facades\Lang;
 
 class CurrencyRuleTest extends TestCase
 {
