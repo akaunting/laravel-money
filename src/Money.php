@@ -505,6 +505,11 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
     public function round(int|float $amount, int $mode = self::ROUND_HALF_UP): float
     {
         $this->assertRoundingMode($mode);
+        
+        if ($this->currency->getSubunit() == 1){
+
+            return round($amount, 0 ,$mode);
+        }
 
         return round($amount, $this->currency->getPrecision(), $mode);
     }
