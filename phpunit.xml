@@ -11,16 +11,16 @@
          stopOnFailure="false"
          verbose="true"
 >
-    <coverage>
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-        <report>
-            <html outputDirectory="build/coverage"/>
-            <text outputFile="build/coverage.txt"/>
-            <clover outputFile="build/logs/clover.xml"/>
-        </report>
-    </coverage>
+<!--    <coverage>-->
+<!--        <include>-->
+<!--            <directory suffix=".php">src</directory>-->
+<!--        </include>-->
+<!--        <report>-->
+<!--            <html outputDirectory="build/coverage"/>-->
+<!--            <text outputFile="build/coverage.txt"/>-->
+<!--            <clover outputFile="build/logs/clover.xml"/>-->
+<!--        </report>-->
+<!--    </coverage>-->
     <testsuites>
         <testsuite name="Package Test Suite">
             <directory>tests</directory>
