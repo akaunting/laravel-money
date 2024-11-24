@@ -30,7 +30,7 @@ class CurrencyRuleTest extends TestCase
         $this->assertSame('money.invalid-currency', (new CurrencyRule)->message());
     }
 
-    public function currencies(): array
+    public static function currencies(): array
     {
         $currencies = [];
 

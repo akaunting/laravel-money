@@ -320,7 +320,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($expected, (string) Money::$cur($amount), $message);
     }
 
-    public function providesFormat()
+    public static function providesFormat()
     {
         return [
             ['₺1.548,48', 'TRY', 154848.25895, 'Example: ' . __LINE__],
@@ -365,7 +365,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($expected, (string) Money::$cur($amount)->formatForHumans($locale), $message);
     }
 
-    public function providesFormatForHumans()
+    public static function providesFormatForHumans()
     {
         return [
             ['€1,55K', 'EUR', 154848.25895, 'nl_NL', 'Example: ' . __LINE__],
@@ -381,7 +381,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($expected, Money::$cur($amount)->formatLocale($locale), $message);
     }
 
-    public function providesFormatLocale()
+    public static function providesFormatLocale()
     {
         return [
             ['₺1.548,48', 'TRY', 154848.25895, 'tr_TR', 'Example: ' . __LINE__],
