@@ -4,7 +4,7 @@ use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
 
 if (! function_exists('money')) {
-    function money(mixed $amount, string $currency = null, bool $convert = null): Money
+    function money(mixed $amount, ?string $currency = null, bool $convert = null): Money
     {
         if (is_null($currency)) {
             /** @var string $currency */
@@ -21,7 +21,7 @@ if (! function_exists('money')) {
 }
 
 if (! function_exists('currency')) {
-    function currency(string $currency = null): Currency
+    function currency(?string $currency = null): Currency
     {
         if (is_null($currency)) {
             /** @var string $currency */
