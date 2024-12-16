@@ -144,15 +144,32 @@ use Akaunting\Money\Money;
 
 class CustomMoney 
 {
-    public function absolute(): Money
+    public function absolute(): callable
     {
-        return $this->isPositive() ? $this : $this->multiply(-1);
+        return function(): Money {
+            /** @var Money $this */
+            return $this->isPositive() ? $this : $this->multiply(-1);
+        };
     }
     
-    public static function zero(?string $currency = null): Money
+    public function zero(): callable
     {
-        return new Money(0, new Currency($currency ?? 'GBP'));
+        return fn(?string $currency = null): Money => new Money(0, new Currency($currency ?? 'GBP'));
     }
+
+    public function sum(): callable
+    {
+        return function (iterable $items, null|string|Currency $currency = null): Money {
+            $items = collect($items)->ensure(Money::class);
+            return $items->reduce(
+                fn(Money $sum, Money $item) => $sum->add($item),
+                new Money(0, $currency instanceof Currency ? $currency : (
+                    $items->isEmpty() || is_string($currency) ? new Currency($currency ?? 'GBP') : $items->first()->getCurrency()
+                ))
+            );
+        };
+    }
+
 }
 ```
 
