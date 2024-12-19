@@ -729,13 +729,35 @@ return [
 
         'IRR' => [
             'name'                => 'Iranian Rial',
-            'code'                => 364,
-            'precision'           => 2,
-            'subunit'             => 100,
-            'symbol'              => '﷼',
-            'symbol_first'        => true,
-            'decimal_mark'        => '.',
-            'thousands_separator' => ',',
+            'code'                => 364,  // The code for Iranian Rial is 364
+            'precision'           => 0,  // No decimal places for Iranian Rial
+            'subunit'             => 1,  // 1 Rial equals 1 unit
+            'symbol'              => 'ریال',  // The symbol for Iranian Rial is "ریال"
+            'symbol_first'        => false,  // Symbol is placed after the amount (e.g. 100 ریال)
+            'decimal_mark'        => '.',  // Decimal mark is a dot
+            'thousands_separator' => ',',  // Thousands separator is a comma
+        ],
+
+        'IRR_Toman' => [
+            'name'                => 'Iranian Toman',
+            'code'                => null,  // No specific code for Toman
+            'precision'           => 0,  // No decimal places for Toman
+            'subunit'             => 1,  // 1 Toman equals 1 unit
+            'symbol'              => 'تومان',  // The symbol for Iranian Toman is "تومان"
+            'symbol_first'        => false,  // Symbol is placed after the amount (e.g. 100 تومان)
+            'decimal_mark'        => '.',  // Decimal mark is a dot
+            'thousands_separator' => ',',  // Thousands separator is a comma
+        ],
+
+        'IRR_To_Toman' => [
+            'name'                => 'Iranian Rial To Toman',
+            'code'                => null,  // No specific code for this conversion
+            'precision'           => 0,  // No decimal places for this conversion
+            'subunit'             => 10,  // 10 Rials equals 1 Toman
+            'symbol'              => 'تومان',  // The symbol for Iranian Toman is "تومان"
+            'symbol_first'        => false,  // Symbol is placed after the amount (e.g. 100 تومان)
+            'decimal_mark'        => '.',  // Decimal mark is a dot
+            'thousands_separator' => ',',  // Thousands separator is a comma
         ],
 
         'ISK' => [
@@ -1673,7 +1695,7 @@ return [
             'decimal_mark'        => ',',
             'thousands_separator' => '.',
         ],
-        
+
         'VED' => [
             'name'                => 'Dijital Bolívar',
             'code'                => 926,
