@@ -738,7 +738,7 @@ return [
             'thousands_separator' => ',',  // Thousands separator is a comma
         ],
 
-        'IRR_Toman' => [
+        'IRT' => [
             'name'                => 'Iranian Toman',
             'code'                => null,  // No specific code for Toman
             'precision'           => 0,  // No decimal places for Toman
