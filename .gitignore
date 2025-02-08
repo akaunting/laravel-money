@@ -1,5 +1,6 @@
 /.idea
 /.history
+/.phpunit.cache
 /.vscode
 /build
 /tests/databases

@@ -5,12 +5,11 @@ namespace Akaunting\Money\Tests\Rules;
 use Akaunting\Money\Currency;
 use Akaunting\Money\Rules\CurrencyRule;
 use Akaunting\Money\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class CurrencyRuleTest extends TestCase
 {
-    /**
-     * @dataProvider currencies
-     */
+    #[DataProvider('currencies')]
     public function testRulePassesForAllCurrencies($currency)
     {
         $this->assertTrue(
@@ -30,7 +29,7 @@ class CurrencyRuleTest extends TestCase
         $this->assertSame('money.invalid-currency', (new CurrencyRule)->message());
     }
 
-    public function currencies(): array
+    public static function currencies(): array
     {
         $currencies = [];
 

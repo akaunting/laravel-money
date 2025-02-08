@@ -8,6 +8,7 @@ use Akaunting\Money\Money;
 use InvalidArgumentException;
 use NumberFormatter;
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
 
@@ -312,15 +313,13 @@ class MoneyTest extends TestCase
         $this->assertFalse($m6->isPositive());
     }
 
-    /**
-     * @dataProvider providesFormat
-     */
+    #[DataProvider('providesFormat')]
     public function testFormat($expected, $cur, $amount, $message)
     {
         $this->assertEquals($expected, (string) Money::$cur($amount), $message);
     }
 
-    public function providesFormat()
+    public static function providesFormat()
     {
         return [
             ['₺1.548,48', 'TRY', 154848.25895, 'Example: ' . __LINE__],
@@ -357,15 +356,13 @@ class MoneyTest extends TestCase
         $this->assertEquals('$100.50', $m2->formatWithoutZeroes());
     }
 
-    /**
-     * @dataProvider providesFormatForHumans
-     */
+    #[DataProvider('providesFormatForHumans')]
     public function testFormatForHumans($expected, $cur, $amount, $locale, $message)
     {
         $this->assertEquals($expected, (string) Money::$cur($amount)->formatForHumans($locale), $message);
     }
 
-    public function providesFormatForHumans()
+    public static function providesFormatForHumans()
     {
         return [
             ['€1,55K', 'EUR', 154848.25895, 'nl_NL', 'Example: ' . __LINE__],
@@ -373,15 +370,13 @@ class MoneyTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providesFormatLocale
-     */
+    #[DataProvider('providesFormatLocale')]
     public function testFormatLocale($expected, $cur, $amount, $locale, $message)
     {
         $this->assertEquals($expected, Money::$cur($amount)->formatLocale($locale), $message);
     }
 
-    public function providesFormatLocale()
+    public static function providesFormatLocale()
     {
         return [
             ['₺1.548,48', 'TRY', 154848.25895, 'tr_TR', 'Example: ' . __LINE__],

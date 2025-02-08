@@ -36,7 +36,7 @@ class Provider extends ServiceProvider
 
     public function registerValidationRules(): void
     {
-        Validator::extend('currency_code', function ($attribute, $value, $parameters, $validator) {
+        Validator::extend('currency_code', function (mixed $attribute, string $value, mixed $parameters, mixed $validator) {
             $status = false;
 
             $currencies = config('money.currencies');
@@ -48,7 +48,7 @@ class Provider extends ServiceProvider
             return $status;
         });
 
-        Validator::replacer('currency_code', function($message, $attribute, $rule, $parameters) {
+        Validator::replacer('currency_code', function(mixed $message, mixed $attribute, mixed $rule, mixed $parameters) {
             return trans('validation.custom.invalid_currency', ['attribute' => $attribute]);
         });
     }
