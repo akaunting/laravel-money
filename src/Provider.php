@@ -39,7 +39,7 @@ class Provider extends ServiceProvider
         Validator::extend('currency_code', function (mixed $attribute, string $value, mixed $parameters, mixed $validator) {
             $status = false;
 
-            $currencies = config('money.currencies');
+            $currencies = (array) config('money.currencies');
 
             if (array_key_exists($value, $currencies)) {
                 $status = true;

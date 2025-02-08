@@ -360,7 +360,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
 
     public function toJson($options = 0): string
     {
-        return json_encode($this->toArray(), $options);
+        return (string) json_encode($this->toArray(), $options);
     }
 
     public function jsonSerialize(): array
