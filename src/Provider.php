@@ -48,7 +48,7 @@ class Provider extends ServiceProvider
             return $status;
         });
 
-        Validator::replacer('currency_code', function(mixed $message, mixed $attribute, mixed $rule, mixed $parameters) {
+        Validator::replacer('currency_code', function (mixed $message, mixed $attribute, mixed $rule, mixed $parameters) {
             return trans('validation.custom.invalid_currency', ['attribute' => $attribute]);
         });
     }
