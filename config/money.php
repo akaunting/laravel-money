@@ -731,7 +731,7 @@ return [
             'name'                => 'Iranian Rial',
             'code'                => 364,
             'precision'           => 0,
-            'subunit'             => 100,
+            'subunit'             => 1,
             'symbol'              => '﷼',
             'symbol_first'        => true,
             'decimal_mark'        => '.',
