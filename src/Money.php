@@ -513,9 +513,14 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
      */
     public function allocate(array $ratios): array
     {
+        $total = array_sum($ratios);
+
+        if (empty($ratios) || $total == 0) {
+            throw new InvalidArgumentException('Ratios should not be empty and their sum should not be zero');
+        }
+
         $remainder = $this->amount;
         $results = [];
-        $total = array_sum($ratios);
 
         foreach ($ratios as $ratio) {
             $share = floor($this->amount * $ratio / $total);
@@ -524,8 +529,9 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         }
 
         for ($i = 0; $remainder > 0; $i++) {
-            $results[$i]->amount++;
-            $remainder--;
+            $increment = min(1, $remainder);
+            $results[$i]->amount += $increment;
+            $remainder -= $increment;
         }
 
         return $results;

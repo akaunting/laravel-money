@@ -314,6 +314,38 @@ class MoneyTest extends TestCase
         $this->assertEquals(new Money(33, new Currency('USD')), $part3);
     }
 
+    public function testAllocationKeepsFloatTotal()
+    {
+        $parts = (new Money(100.5, new Currency('USD')))->allocate([1, 1, 1]);
+
+        $this->assertEquals(100.5, array_sum(array_map(fn (Money $part) => $part->getAmount(), $parts)));
+        $this->assertEquals([34, 33.5, 33], array_map(fn (Money $part) => $part->getAmount(), $parts));
+    }
+
+    public function testAllocationOfNegativeAmount()
+    {
+        $parts = (new Money(-100, new Currency('USD')))->allocate([1, 1, 1]);
+
+        $this->assertEquals([-33, -33, -34], array_map(fn (Money $part) => $part->getAmount(), $parts));
+    }
+
+    public static function invalidAllocationRatios(): array
+    {
+        return [
+            'empty ratios' => [[]],
+            'zero sum' => [[0, 0]],
+            'zero sum with negative' => [[1, -1]],
+        ];
+    }
+
+    #[DataProvider('invalidAllocationRatios')]
+    public function testAllocationRejectsInvalidRatios(array $ratios)
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        (new Money(100, new Currency('USD')))->allocate($ratios);
+    }
+
     public function testAllocationOrderIsImportant()
     {
         $m = new Money(5, new Currency('USD'));
