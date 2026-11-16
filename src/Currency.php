@@ -263,9 +263,7 @@ class Currency implements Arrayable, Castable, Jsonable, JsonSerializable, Rende
 
     public static function getCurrencies(): array
     {
-        $config = require __DIR__ . '/../config/money.php';
-
-        return static::$currencies ??= $config['currencies'];
+        return static::$currencies ??= (require __DIR__ . '/../config/money.php')['currencies'];
     }
 
     public function equals(Currency $currency): bool

@@ -89,6 +89,35 @@ class CurrencyTest extends TestCase
         Currency::setCurrencies($currencies);
     }
 
+    public function testCustomCurrenciesAreUsed()
+    {
+        $currencies = Currency::getCurrencies();
+
+        Currency::setCurrencies([
+            'ABC' => [
+                'name'                => 'Custom Currency',
+                'code'                => 999,
+                'precision'           => 2,
+                'subunit'             => 100,
+                'symbol'              => 'A',
+                'symbol_first'        => true,
+                'decimal_mark'        => '.',
+                'thousands_separator' => ',',
+            ],
+        ]);
+
+        try {
+            $this->assertSame(['ABC'], array_keys(Currency::getCurrencies()));
+            $this->assertSame('Custom Currency', (new Currency('ABC'))->getName());
+
+            $this->expectException(OutOfBoundsException::class);
+
+            new Currency('USD');
+        } finally {
+            Currency::setCurrencies($currencies);
+        }
+    }
+
     public function testStaticMacro()
     {
         Currency::macro('testMacro', fn () => Currency::EUR());
