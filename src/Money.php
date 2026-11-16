@@ -439,11 +439,23 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this->compare($other) <= 0;
     }
 
+    /**
+     * @psalm-suppress ArgumentTypeCoercion
+     */
     public function convert(Currency $currency, int|float $ratio, int $roundingMode = self::ROUND_HALF_UP): Money
     {
-        $this->currency = $currency;
+        $this->assertRoundingMode($roundingMode);
 
-        return $this->multiply($ratio, $roundingMode);
+        $amount = round($this->amount * $ratio, $currency->getPrecision(), $roundingMode);
+
+        if ($this->isImmutable()) {
+            return new self($amount, $currency);
+        }
+
+        $this->currency = $currency;
+        $this->amount = $amount;
+
+        return $this;
     }
 
     public function add(int|float|Money $addend, int $roundingMode = self::ROUND_HALF_UP): Money

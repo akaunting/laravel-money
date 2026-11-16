@@ -201,6 +201,40 @@ class MoneyTest extends TestCase
         $this->assertEquals($m1->convert(new Currency('TRY'), 3.5), $m2);
     }
 
+    public function testConvertDoesNotChangeImmutableOriginal()
+    {
+        $original = new Money(100, new Currency('USD'));
+        $converted = $original->convert(new Currency('TRY'), 3.5);
+
+        $this->assertEquals(new Money(100, new Currency('USD')), $original);
+        $this->assertEquals(new Money(350, new Currency('TRY')), $converted);
+        $this->assertNotSame($original, $converted);
+    }
+
+    public function testConvertChangesMutableInstance()
+    {
+        $money = (new Money(100, new Currency('USD')))->mutable();
+        $converted = $money->convert(new Currency('TRY'), 3.5);
+
+        $this->assertSame($money, $converted);
+        $this->assertSame('TRY', $money->getCurrency()->getCurrency());
+        $this->assertEquals(350, $money->getAmount());
+    }
+
+    public function testConvertUsesTargetCurrencyPrecision()
+    {
+        $converted = (new Money(100, new Currency('USD')))->convert(new Currency('JPY'), 1.555);
+
+        $this->assertEquals(156, $converted->getAmount());
+    }
+
+    public function testConvertRejectsInvalidRoundingMode()
+    {
+        $this->expectException(OutOfBoundsException::class);
+
+        (new Money(100, new Currency('USD')))->convert(new Currency('TRY'), 3.5, 999);
+    }
+
     public function testAddition()
     {
         $m1 = new Money(1100.101, new Currency('USD'));
