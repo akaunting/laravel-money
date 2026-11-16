@@ -240,12 +240,12 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
             return $this->convertAmount($amount->getAmount(), $convert);
         }
 
-        throw new UnexpectedAmountException('Invalid amount "' . $amount . '"');
+        throw new UnexpectedAmountException('Invalid amount "' . (is_scalar($amount) ? $amount : get_debug_type($amount)) . '"');
     }
 
     protected function parseAmountFromCallable(mixed $amount): mixed
     {
-        if (! is_callable($amount)) {
+        if (! $amount instanceof Closure) {
             return $amount;
         }
 

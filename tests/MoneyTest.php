@@ -51,6 +51,37 @@ class MoneyTest extends TestCase
         }, new Currency('USD')), new Money(1, new Currency('USD')));
     }
 
+    public static function nonClosureCallableAmounts(): array
+    {
+        return [
+            'function name' => ['phpinfo'],
+            'static method string' => [CallableAmountSpy::class . '::amount'],
+            'static method array' => [[CallableAmountSpy::class, 'amount']],
+            'invokable object' => [new CallableAmountSpy],
+        ];
+    }
+
+    #[DataProvider('nonClosureCallableAmounts')]
+    public function testNonClosureCallableAmountIsNotExecuted(mixed $amount)
+    {
+        CallableAmountSpy::$calls = 0;
+
+        ob_start();
+
+        try {
+            new Money($amount, new Currency('USD'));
+
+            $this->fail('UnexpectedValueException was not thrown');
+        } catch (UnexpectedValueException) {
+            //
+        } finally {
+            $output = ob_get_clean();
+        }
+
+        $this->assertSame(0, CallableAmountSpy::$calls);
+        $this->assertSame('', $output);
+    }
+
     public function testStringThrowsException()
     {
         $this->expectException(UnexpectedValueException::class);
@@ -412,5 +443,20 @@ class MoneyTest extends TestCase
         Money::macro('testMacro', fn () => Money::USD(1099));
 
         $this->assertEquals(Money::USD(1099), Money::testMacro());
+    }
+}
+
+class CallableAmountSpy
+{
+    public static int $calls = 0;
+
+    public static function amount(): int
+    {
+        return ++static::$calls;
+    }
+
+    public function __invoke(): int
+    {
+        return ++static::$calls;
     }
 }
