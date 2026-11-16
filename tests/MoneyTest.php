@@ -82,6 +82,22 @@ class MoneyTest extends TestCase
         $this->assertSame('', $output);
     }
 
+    public function testFactoryMethodWithoutAmountThrowsException()
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Missing amount for "USD"');
+
+        Money::USD();
+    }
+
+    public function testFactoryMethodWithNullAmountThrowsException()
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Invalid amount "null"');
+
+        Money::USD(null);
+    }
+
     public function testStringThrowsException()
     {
         $this->expectException(UnexpectedValueException::class);

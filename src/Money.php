@@ -293,6 +293,10 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
             return static::macroableCallStatic($method, $arguments);
         }
 
+        if (! array_key_exists(0, $arguments)) {
+            throw new UnexpectedAmountException('Missing amount for "' . $method . '"');
+        }
+
         $convert = isset($arguments[1]) && is_bool($arguments[1]) && $arguments[1];
 
         return new self($arguments[0], new Currency($method), $convert);
