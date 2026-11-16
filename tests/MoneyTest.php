@@ -419,6 +419,25 @@ class MoneyTest extends TestCase
         $this->assertEquals('$100.50', $m2->formatWithoutZeroes());
     }
 
+    public static function providesNegativeZeroFormats()
+    {
+        return [
+            'format' => ['format', '$0.00', '-$0.01'],
+            'formatWithoutZeroes' => ['formatWithoutZeroes', '$0', '-$0.01'],
+            'formatForHumans' => ['formatForHumans', '$0', '-$0.01'],
+            'formatLocale' => ['formatLocale', '$0.00', '-$0.01'],
+        ];
+    }
+
+    #[DataProvider('providesNegativeZeroFormats')]
+    public function testTinyNegativeAmountIsNotFormattedAsNegativeZero(string $method, string $zero, string $negative)
+    {
+        Money::setLocale('en_US');
+
+        $this->assertSame($zero, Money::USD(-0.4)->$method());
+        $this->assertSame($negative, Money::USD(-1)->$method());
+    }
+
     #[DataProvider('providesFormatForHumans')]
     public function testFormatForHumans($expected, $cur, $amount, $locale, $message)
     {

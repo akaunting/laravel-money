@@ -370,6 +370,16 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         return $this->round($this->amount / $this->currency->getSubunit());
     }
 
+    /**
+     * Rounded value without negative zero, so tiny negative amounts are not formatted as "-0".
+     */
+    protected function getFormattableValue(): float
+    {
+        $value = $this->getValue();
+
+        return $value == 0 ? 0.0 : $value;
+    }
+
     public function getCurrency(): Currency
     {
         return $this->currency;
@@ -554,9 +564,9 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
 
     public function format(): string
     {
-        $negative = $this->isNegative();
-        $value = $this->getValue();
-        $amount = $negative ? -$value : $value;
+        $value = $this->getFormattableValue();
+        $negative = $value < 0;
+        $amount = abs($value);
         $thousands = $this->currency->getThousandsSeparator();
         $decimals = $this->currency->getDecimalMark();
         $prefix = $this->currency->getPrefix();
@@ -582,9 +592,9 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
             return $this->format();
         }
 
-        $negative = $this->isNegative();
-        $value = $this->getValue();
-        $amount = $negative ? -$value : $value;
+        $value = $this->getFormattableValue();
+        $negative = $value < 0;
+        $amount = abs($value);
         $thousands = $this->currency->getThousandsSeparator();
         $decimals = $this->currency->getDecimalMark();
         $prefix = $this->currency->getPrefix();
@@ -607,9 +617,9 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
         }
         // @codeCoverageIgnoreEnd
 
-        $negative = $this->isNegative();
-        $value = $this->getValue();
-        $amount = $negative ? -$value : $value;
+        $value = $this->getFormattableValue();
+        $negative = $value < 0;
+        $amount = abs($value);
         $prefix = $this->currency->getPrefix();
         $suffix = $this->currency->getSuffix();
 
@@ -649,7 +659,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
             $callback($formatter);
         }
 
-        return $formatter->formatCurrency($this->getValue(), $this->currency->getCurrency());
+        return $formatter->formatCurrency($this->getFormattableValue(), $this->currency->getCurrency());
     }
 
     public function toArray(): array
