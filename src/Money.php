@@ -336,7 +336,7 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
     protected function assertSameCurrency(Money $other): void
     {
         if (! $this->isSameCurrency($other)) {
-            throw new InvalidArgumentException('Different currencies "' . $this->currency . '" and "' . $other->currency . '"');
+            throw new InvalidArgumentException('Different currencies "' . $this->currency->render() . '" and "' . $other->currency->render() . '"');
         }
     }
 
