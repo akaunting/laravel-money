@@ -222,6 +222,8 @@ class Money implements Arrayable, Castable, Jsonable, JsonSerializable, Renderab
      * parseAmount.
      *
      * @throws UnexpectedAmountException
+     *
+     * @psalm-suppress DocblockTypeContradiction,RedundantConditionGivenDocblockType The @var below is narrower than the real input, so the error message must still handle any type.
      */
     protected function parseAmount(mixed $amount, bool $convert = false): int|float
     {
